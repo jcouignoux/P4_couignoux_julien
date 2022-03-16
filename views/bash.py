@@ -231,7 +231,7 @@ class BashView():
         print(LINE)
         for round in tournament.rounds:
             print(
-                "Round " + str(round.number) +
+                "Tour " + str(round.number) +
                 " - " +
                 "Début: " + str(round.start_date) +
                 " - " +

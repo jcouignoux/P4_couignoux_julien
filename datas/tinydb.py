@@ -69,22 +69,22 @@ class TinyDb():
                 )
                 for match_list in round_list['matchs']:
                     print(match_list)
-                    f1 = match_list[0][0][0]['last_name']
+                    f1 = match_list[0][0]['last_name']
                     p1 = filter(lambda x: f1 in x.last_name,
                                 tournament.players)
-                    f2 = match_list[0][1][0]['last_name']
+                    f2 = match_list[1][0]['last_name']
                     p2 = filter(lambda x: f2 in x.last_name,
                                 tournament.players)
                     match = Match()
                     match.player1 = (
                         list(p1)[0],
-                        float(match_list[0][0][1]),
-                        float(match_list[0][0][2])
+                        float(match_list[0][1]),
+                        float(match_list[0][2])
                     )
                     match.player2 = (
                         list(p2)[0],
-                        float(match_list[0][1][1]),
-                        float(match_list[0][1][2])
+                        float(match_list[1][1]),
+                        float(match_list[1][2])
                     )
                     round.matchs.append(match)
                 tournament.rounds.append(round)
@@ -134,12 +134,11 @@ class TinyDb():
 
     def update_tournament(self, tournament):
         serialized_tournament = self.serialize_tournament(tournament)
-        # print(serialized_tournament)
+        print(serialized_tournament)
         doc = self.tournaments_table.all()
         for d in doc:
             print(d.doc_id)
             if d['name'] == tournament.name:
-                print(tournament.rounds[0].matchs[0].player1)
                 self.tournaments_table.update(
                     serialized_tournament, doc_ids=[d.doc_id])
         input('')
@@ -157,18 +156,17 @@ class TinyDb():
         return serialized_player
 
     def serialize_match(self, match):
-        serialized_match = []
-        serialized_match.append([
-            [
-                self.serialize_player(match.player1[0]),
-                match.player1[1],
-                match.player1[2]
-            ], [
-                self.serialize_player(match.player2[0]),
-                match.player2[1],
-                match.player2[2]
-            ]
-        ])
+        serialized_matchs = list()
+        serialized_match = [
+            self.serialize_player(match.player1[0]),
+            match.player1[1],
+            match.player1[2]
+        ], [
+            self.serialize_player(match.player2[0]),
+            match.player2[1],
+            match.player2[2]
+        ]
+        serialized_matchs.append(serialized_match)
         return serialized_match
 
     def serialize_round(self, round):

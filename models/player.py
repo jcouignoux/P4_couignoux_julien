@@ -19,21 +19,8 @@ class Player:
         self.gender = gender
         self.ranking = int(ranking)
 
-    # def serialized_player(self):
-    #     self = {
-    #         'last_name': self.last_name,
-    #         'for_name': self.for_name,
-    #         'bithday': self.birthday,
-    #         'gender': self.gender,
-    #         'ranking': self.ranking
-    #     }
-
     def add(self):
         db.add_player(self)
-
-    # def update_player_ranking(self):
-    #     table.update({'ranking': self.ranking},
-    #                  where('last_name') == self.last_name)
 
     def __str__(self):
         """Used in print."""

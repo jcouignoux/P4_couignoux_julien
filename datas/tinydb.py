@@ -37,6 +37,15 @@ class TinyDb():
         # })
         # self.players_table.insert(self.serialize_player(player))
 
+    def delete_player(self, player):
+        doc = self.players_table.all()
+        for d in doc:
+            print(d.doc_id)
+            if d['name'] == player.last_name:
+                print(player.last_name)
+                self.tournaments_table.remove(doc_ids=[d.doc_id])
+        input('')
+
     def update_player(self, player):
         self.players_table.update({'ranking': player.ranking},
                                   where('last_name') == player.last_name)
@@ -60,7 +69,8 @@ class TinyDb():
                     gender=player_dict['gender'],
                     ranking=int(player_dict['ranking'])
                 )
-                tournament.players.append(player)
+                # tournament.players.append(player)
+                tournament.add_player(player)
             for round_list in tournament_dict['rounds']:
                 round = Round(
                     number=round_list['number'],
@@ -68,7 +78,6 @@ class TinyDb():
                     end_date=round_list['end_date']
                 )
                 for match_list in round_list['matchs']:
-                    print(match_list)
                     f1 = match_list[0][0]['last_name']
                     p1 = filter(lambda x: f1 in x.last_name,
                                 tournament.players)
@@ -86,8 +95,15 @@ class TinyDb():
                         float(match_list[1][1]),
                         float(match_list[1][2])
                     )
-                    round.matchs.append(match)
-                tournament.rounds.append(round)
+                    # round.matchs.append(match)
+                    round.add_match(match)
+                    already_played_matchs = (
+                        match.player1[0].last_name, match.player2[0].last_name
+                    ), (
+                        match.player2[0].last_name, match.player1[0].last_name
+                    )
+                # tournament.rounds.append(round)
+                tournament.add_round(round)
             tournaments.append(tournament)
 
         return tournaments
@@ -110,7 +126,7 @@ class TinyDb():
     def add_match(self, match):
         pass
 
-    def update_round(self, tournament, r):
+    def update_round(self, tournament):
         round = tournament.rounds[-1]
         serialized_matchs = []
         for match in round:

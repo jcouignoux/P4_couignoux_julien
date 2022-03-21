@@ -1,4 +1,3 @@
-from models.player import Player
 LINE = "-----------------------------------------------"
 TITLE = "##############################################"
 
@@ -79,7 +78,7 @@ class Menus:
         self.title = TITLE + "\n AJOUT D'UN JOUEUR \n" + TITLE
         self.choices = [
             "Entrez l'id du joueur à ajouter",
-            "C: Créer joueur",
+            "C: Ajouter Nouveau joueur",
             "S: Stop"
         ]
         self.responses = {
@@ -123,14 +122,16 @@ class Menus:
             # "2: Prénom",
             # "3: Naissance",
             # "4: Sexe",
-            "5: Classement"
+            "Classement"
         ]
         self.choices = [
             "M: Modifier",
+            "S: Supprimer",
             "A: Abandonner"
         ]
         self.responses = {
             "M": "Mod",
+            "S": "Del",
             "A": "Abort"
         }
 

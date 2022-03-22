@@ -66,6 +66,8 @@ class BashView():
         print(LINE)
         print(message)
         print(LINE)
+        print(len(tournament.players))
+        print(int(tournament.round_number))
         entry = input("Entrez votre choix: ")
         lst = [format(x, 'd') for x in range(len(players))]
         print(LINE)
@@ -79,14 +81,16 @@ class BashView():
                 message = "Joueur déjà sélectionné."
         elif entry in menu.responses:
             if entry == "S":
+                player = ''
+                ret = menu.responses[entry]
                 if len(tournament.players) <= int(tournament.round_number):
                     ret = "Mes"
                     message = "Il doit y avoir au moins un joueur de plus que de tour"
-                elif (len(tournament.players) % 2) == 0:
+                if (len(tournament.players) % 2) == 0:
                     ret = "Mes"
                     message = "Il doit y avoir un nombre de joueurs paire"
-                player = ""
-                ret = menu.responses[entry]
+                # else:
+                #     ret = menu.responses[entry]
             else:
                 player = ""
                 ret = menu.responses[entry]
@@ -135,18 +139,18 @@ class BashView():
         for choice in menu.choices:
             print(choice)
         entry = input("Valider ou Abandonner: ")
-        try:
-            val = int(val)
-        except:
-            message = "La valeur doit être un entier"
-            return ("Mes", val, message)
         if entry in menu.responses:
             ret = menu.responses[entry]
+            message = ''
+            if isinstance(val, int):
+                ret = "Mod"
+                val = int(val)
         else:
-            message = "Entrée incorrecte,\nappuyer sur une touche pour réessayer."
+            ret = "Mes"
+            message = "Entrée incorrecte."
         print(LINE)
 
-        return ret, val, message
+        return (ret, val, message)
 
     def prompt_for_tournament(self, menu, tournaments, message):
         """Prompt for tournament."""
@@ -184,7 +188,7 @@ class BashView():
         name = input("Nom: ")
         description = input("Description: ")
         location = input("Localisation: ")
-        round_number = input("Nombre de tours: ")
+        round_number = input("Nombre de tours (default 4): ") or 4
         time_controler = input("Gestion du temps: ")
         print(LINE)
         for choice in menu.choices:
@@ -192,6 +196,7 @@ class BashView():
         print(LINE)
         entry = input("Entrez votre choix: ")
         if entry in menu.responses:
+            message = ''
             ret = menu.responses[entry]
             tournament_infos = (name, description, location,
                                 round_number, time_controler)

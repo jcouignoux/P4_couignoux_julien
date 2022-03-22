@@ -26,7 +26,7 @@ class TinyDb():
 
         return players
 
-    def add_player(self, player):
+    def save_player(player):
         pass
         # self.players_table.insert(self.serialize_player(player))
 
@@ -34,7 +34,7 @@ class TinyDb():
         doc = self.players_table.all()
         for d in doc:
             print(d.doc_id)
-            if d['name'] == player.last_name:
+            if d['last_name'] == player.last_name:
                 print(player.last_name)
                 self.tournaments_table.remove(doc_ids=[d.doc_id])
         input('')
@@ -98,7 +98,7 @@ class TinyDb():
 
         return tournaments
 
-    def add_tournament(self, tournament):
+    def save_tournament(self, tournament):
         pass
         # self.tournaments_table.insert(self.serialize_tournament(tournament))
 

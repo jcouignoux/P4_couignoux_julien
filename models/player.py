@@ -1,9 +1,4 @@
-from typing import NewType, TypeVar, cast
-from datetime import datetime
-# from tinydb import TinyDB, where
 from datas.base import DataBase as db
-# db = TinyDB('db/db.json')
-# table = db.table('_players')
 
 GENDER = ("F", "M")
 # BDAY = NewType('BDAY', datetime)
@@ -19,8 +14,14 @@ class Player:
         self.gender = gender
         self.ranking = int(ranking)
 
-    def add(self):
-        db.add_player(self)
+    def save(self):
+        db.save_player(self)
+
+    def update(self):
+        db.update_player(self)
+
+    def delete(self):
+        db.delete_player(self)
 
     def __str__(self):
         """Used in print."""

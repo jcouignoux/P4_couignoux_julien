@@ -9,8 +9,8 @@ class DataBase:
     def get_all_players(self):
         return self.active_db.get_all_players()
 
-    def add_player(self, player):
-        return self.active_db.add_player(player)
+    def save_player(self, player):
+        return self.active_db.save_player(player)
 
     def update_player(self, player):
         return self.active_db.update_player(player)
@@ -21,8 +21,8 @@ class DataBase:
     def get_all_tournaments(self):
         return self.active_db.get_all_tournaments()
 
-    def add_tournament(self, tournament):
-        return self.active_db.add_tournament(tournament)
+    def save_tournament(self, tournament):
+        return self.active_db.save_tournament(tournament)
 
     def update_match(self, tournament, match):
         return self.active_db.update_match(tournament, match)

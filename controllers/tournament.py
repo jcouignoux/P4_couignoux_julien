@@ -5,76 +5,96 @@ from models.tournament import Tournament, Round, Match
 from .player import *
 
 
-def get_tournament(self, tournaments):
+def get_tournament(self, tournaments, message):
     res = self.view.prompt_for_tournament(
-        self.menu.tournament_menu(), tournaments)
+        self.menu.tournament_menu(), tournaments, message)
     if res[0] == "New":
+        message = ''
         adding_player = True
-        get_new_tournament(self, adding_player)
+        get_new_tournament(self, adding_player, message)
     elif res[0] == "Ret":
+        message = ''
         self.run()
     elif res[0] == "View":
+        message = ''
         self.tournament = tournaments[res[1]]
-        get_tournament_detail(self, self.tournament)
+        get_tournament_detail(self, self.tournament, message)
+    elif res[0] == "Mes":
+        message = res[2]
+        get_tournament(self, tournaments, message)
 
 
-def get_tournament_detail(self, tournament):
+def get_tournament_detail(self, tournament, message):
     res = self.view.prompt_for_tournament_detail(
-        self.menu.tournament_detail_menu(), tournament)
+        self.menu.tournament_detail_menu(), tournament, message)
     if res[0] == "Ret":
-        get_tournament(self, self.tournaments)
+        message = ''
+        get_tournament(self, self.tournaments, message)
     elif res[0] == "Mod":
         match_index = res[2]
-        get_match_detail(self, tournament, match_index)
+        get_match_detail(self, tournament, match_index, message)
     elif res[0] == "Val":
+        message = ''
         end_date = datetime.now().strftime("%d/%m/%Y-%H:%M")
         tournament.rounds[-1].end_date = end_date
         add_round(tournament)
-        get_tournament_detail(self, tournament)
+        get_tournament_detail(self, tournament, message)
     elif res[0] == "New":
+        message = ''
         add_round(tournament)
-        get_tournament_detail(self, tournament)
+        get_tournament_detail(self, tournament, message)
+    elif res[0] == "Mes":
+        message = res[3]
+        get_tournament_detail(self, tournament, message)
     elif res[0] == "Close":
+        message = ''
         pass
         # self.db.update_tournament
 
 
-def get_new_tournament(self, adding_player):
+def get_new_tournament(self, adding_player, message):
     if adding_player == True:
         date = datetime.now().strftime("%d/%m/%Y")
-        message = ''
-        res_t = self.view.prompt_for_new_tournament(
-            self.menu.create_tournament_menu())
-        if res_t[0] == "Abort":
-            get_tournament(self)
-        elif res_t[0] == "Create":
-            self.tournament = Tournament(
-                res_t[1][0], res_t[1][1], date, res_t[1][2], res_t[1][3], res_t[1][4])
+        res = self.view.prompt_for_new_tournament(
+            self.menu.create_tournament_menu(), message)
+        if res[0] == "Abort":
+            message = ''
+            get_tournament(self, message)
+        elif res[0] == "Create":
+            try:
+                self.tournament = Tournament(
+                    res[1][0], res[1][1], date, res[1][2], res[1][3], res[1][4])
+                message = ''
+            except Exception as e:
+                message = e
+                get_new_tournament(self, adding_player, message)
             while adding_player == True:
                 add_players(self, self.tournament, message)
+        if res[0] == "Mes":
+            message = res[2]
+            get_new_tournament(self, adding_player, message)
     else:
         add_round(self.tournament)
         self.tournaments.append(self.tournament)
-        get_tournament_detail(self, self.tournament)
+        get_tournament_detail(self, self.tournament, message)
 
 
 def add_players(self, tournament, message):
     res = self.view.prompt_for_add_player(
         self.menu.add_player_menu(), tournament, self.players, message)
     if res[0] == "Stop":
-        if (len(tournament.players) % 2) == 0:
-            adding_player = False
-            get_new_tournament(self, adding_player)
-        else:
-            message = "Il doit y avoir un nombre de joueurs paire"
+        adding_player = False
+        get_new_tournament(self, adding_player, message)
     elif res[0] == "Add":
+        message = ''
         player = res[1]
         tournament.add_player(player)
     elif res[0] == "Create":
-        player = create_player(self)
-        # print(player)
-        # input('')
-        tournament.players.append(player)
+        player = create_player(self, message)
+        tournament.add_player(player)
+    elif res[0] == "Mes":
+        message = res[2]
+        add_players(self, tournament, message)
 
 
 def add_round(tournament):
@@ -91,16 +111,8 @@ def add_round(tournament):
             match = Match()
             match.player1 = player1
             match.player2 = player2
-            round.matchs.append(match)
+            round.add_match(match)
     else:
-        # créer une liste : à faire en méthode
-        matchs_played_list = []
-        for r in tournament.rounds:
-            for m in r.matchs:
-                p = m.player1[0].last_name, m.player2[0].last_name
-                p_inv = m.player2[0].last_name, m.player1[0].last_name
-                matchs_played_list.append(p)
-                matchs_played_list.append(p_inv)
         player_list_temp = []
         for match in tournament.rounds[-1].matchs:
             player_list_temp.append(
@@ -152,21 +164,25 @@ def add_round(tournament):
                         # print("p2 pas dans player_pop")
                         i2 += 1
                 else:
-                    print("p1 pas dans player_pop")
+                    # print("p1 pas dans player_pop")
                     i1 += 1
                     i2 = i1 + 1
         # input('fin')
-    # tournament.rounds.append(round)
     tournament.add_round(round)
 
 
-def get_match_detail(self, tournament, match_index):
+def get_match_detail(self, tournament, match_index, message):
     res = self.view.prompt_for_match_detail(
-        self.menu.match_detail_menu(), tournament, match_index)
+        self.menu.match_detail_menu(), tournament, match_index, message)
     if res[0] == "Mod":
+        message = ''
         match = tournament.rounds[-1].matchs[match_index]
         match.player1 = (match.player1[0], match.player1[1], res[1][0])
         match.player2 = (match.player2[0], match.player2[1], res[1][1])
-        get_tournament_detail(self, tournament)
-    if res[0] == "Ret":
-        get_tournament_detail(self, tournament)
+        get_tournament_detail(self, tournament, message)
+    elif res[0] == "Ret":
+        message = ''
+        get_tournament_detail(self, tournament, message)
+    elif res[0] == "Mes":
+        message = res[2]
+        get_match_detail(self, tournament, match_index, message)

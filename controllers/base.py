@@ -5,7 +5,7 @@ from models.player import Player
 from models.tournament import Tournament
 from .player import *
 from .tournament import *
-from views.menu import Menus as menu
+from views.menu import Menus
 
 
 class Controller:
@@ -19,18 +19,21 @@ class Controller:
 
     def run(self):
         running = True
+        message = ''
         while running:
-            res = self.view.prompt_for_main(menu.main_menu(self))
-            if res == "Quit":
+            res = self.view.prompt_for_main(self.menu.main_menu(), message)
+            if res[0] == "Quit":
                 running = False
-            elif res == "Bkup":
+            elif res[0] == "Bkup":
                 for tournament in self.tournaments:
                     self.db.update_tournament(tournament)
-            elif res == "1":
+            elif res[0] == "1":
                 while True:
-                    get_tournament(self, self.tournaments)
-            elif res == "2":
+                    message = ''
+                    get_tournament(self, self.tournaments, message)
+            elif res[0] == "2":
                 while True:
-                    get_players(self, self.players)
-            else:
-                self.run()
+                    message = ''
+                    get_players(self, self.players, message)
+            elif res[0] == "Mes":
+                message = res[1]

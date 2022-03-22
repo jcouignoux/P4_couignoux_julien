@@ -9,24 +9,22 @@ def cls():
 
 class BashView():
 
-    def prompt_for_main(self, menu):
+    def prompt_for_main(self, menu, message):
         cls()
         print(menu.title)
         for choice in menu.choices:
             print(choice)
         print(LINE)
+        print(message)
+        print(LINE)
         entry = input("Que souhaitez-vous faire: ")
         if entry in menu.responses:
-            res = menu.responses[entry]
+            return (menu.responses[entry], message)
         else:
-            print("Entrée incorrecte,\nappuyer sur une touche pour réessayer.")
-            input("")
-            self.prompt_for_main(menu)
+            message = "Entrée incorrecte."
+            return ("Mes", message)
 
-        return res
-
-    def prompt_for_player(self, menu, players):
-        """Prompt for a name."""
+    def prompt_for_player(self, menu, players, message):
         cls()
         print(menu.title)
         for player in players:
@@ -34,6 +32,8 @@ class BashView():
             print(str(index) + ": " + str(player) +
                   " (" + str(player.birthday) + ", " + str(player.gender) +
                   ", " + str(player.ranking) + ")")
+        print(LINE)
+        print(message)
         print(LINE)
         for choice in menu.choices:
             print(choice)
@@ -47,15 +47,13 @@ class BashView():
             player = ""
             ret = menu.responses[entry]
         else:
-            print("Entrée incorrecte,\nappuyer sur une touche pour réessayer.")
-            input("")
-            self.prompt_for_player(menu, players)
+            ret = "Mes"
+            message = "Entrée incorrecte."
 
-        return ret, player
+        return (ret, player, message)
 
     def prompt_for_add_player(self, menu, tournament, players, message):
         cls()
-        ret = ''
         print(menu.title)
         for player in players:
             index = players.index(player)
@@ -67,31 +65,43 @@ class BashView():
             print(choice)
         print(LINE)
         print(message)
+        print(LINE)
         entry = input("Entrez votre choix: ")
         lst = [format(x, 'd') for x in range(len(players))]
         print(LINE)
-        # print('---' + entry + '---' + str(lst) + '---')
         if entry in lst:
             player = players[int(entry)]
             if player not in tournament.players:
-                # print('test')
                 ret = "Add"
-                # print(ret)
             else:
+                ret = 'Mes'
+                pleyer = ''
                 message = "Joueur déjà sélectionné."
-                self.prompt_for_add_player(menu, tournament, players, message)
         elif entry in menu.responses:
-            player = ""
-            ret = menu.responses[entry]
+            if entry == "S":
+                if len(tournament.players) <= int(tournament.round_number):
+                    ret = "Mes"
+                    message = "Il doit y avoir au moins un joueur de plus que de tour"
+                elif (len(tournament.players) % 2) == 0:
+                    ret = "Mes"
+                    message = "Il doit y avoir un nombre de joueurs paire"
+                player = ""
+                ret = menu.responses[entry]
+            else:
+                player = ""
+                ret = menu.responses[entry]
         else:
-            message = "Entrée incorrecte,\nappuyer sur une touche pour réessayer."
-            self.prompt_for_add_player(menu, tournament, players, message)
+            player = ''
+            ret = "Mes"
+            message = "Entrée incorrecte."
 
-        return ret, player
+        return (ret, player, message)
 
-    def prompt_for_create_player(self, menu):
+    def prompt_for_create_player(self, menu, message):
         cls()
         print(menu.title)
+        print(message)
+        print(LINE)
         last_name = input("Entrez le nom du joueur: ")
         for_name = input("Entrez le prénom du joueur: ")
         birthday = input(
@@ -107,38 +117,38 @@ class BashView():
             ret = menu.responses[entry]
             player = (last_name, for_name, birthday, gender, ranking)
         else:
-            print("Entrée incorrecte,\nappuyer sur une touche pour réessayer.")
-            input("")
-            self.prompt_for_add_player(menu)
+            ret = "Mes"
+            message = "Entrée incorrecte."
 
-        return ret, player
+        return (ret, player, message)
 
-    def prompt_for_modify_player(self, menu, player):
+    def prompt_for_modify_player(self, menu, player, message):
         cls()
         print(menu.title)
         print(player)
         for select in menu.select:
             print(select + ": " + str(player.ranking))
         print(LINE)
-        # sel = int(input("Entrez l'id à modifier: "))
-        # print(LINE)
-        # if sel in range(len(menu.select) + 1):
-        #     print("Modification")
+        print(message)
+        print(LINE)
         val = input("Entrez la nouvelle valeur: ")
         for choice in menu.choices:
             print(choice)
         entry = input("Valider ou Abandonner: ")
+        try:
+            val = int(val)
+        except:
+            message = "La valeur doit être un entier"
+            return ("Mes", val, message)
         if entry in menu.responses:
             ret = menu.responses[entry]
         else:
-            print("Entrée incorrecte,\nappuyer sur une touche pour réessayer.")
-            input("")
-            self.prompt_for_modify_player(menu, player)
+            message = "Entrée incorrecte,\nappuyer sur une touche pour réessayer."
         print(LINE)
 
-        return ret, val
+        return ret, val, message
 
-    def prompt_for_tournament(self, menu, tournaments):
+    def prompt_for_tournament(self, menu, tournaments, message):
         """Prompt for tournament."""
         cls()
         print(menu.title)
@@ -148,6 +158,8 @@ class BashView():
         print(LINE)
         for choice in menu.choices:
             print(choice)
+        print(LINE)
+        print(message)
         print(LINE)
         entry = input("Entrez votre choix: ")
         lst = [format(x, 'd') for x in range(len(tournaments))]
@@ -159,16 +171,16 @@ class BashView():
             tournament = tournaments[int(entry)]
             tournament = int(entry)
         else:
-            print("Entrée incorrecte,\nappuyer sur une touche pour réessayer.")
-            input("")
-            self.prompt_for_tournament(menu, tournaments)
+            ret = "Mes"
+            message = "Entrée incorrecte."
 
-        return ret, tournament
+        return (ret, tournament, message)
 
-    def prompt_for_new_tournament(self, menu):
+    def prompt_for_new_tournament(self, menu, message):
         cls()
-        ret = ''
         print(menu.title)
+        print(message)
+        print(LINE)
         name = input("Nom: ")
         description = input("Description: ")
         location = input("Localisation: ")
@@ -184,16 +196,17 @@ class BashView():
             tournament_infos = (name, description, location,
                                 round_number, time_controler)
         else:
-            print("Entrée incorrecte,\nappuyer sur une touche pour réessayer.")
-            input("")
-            self.prompt_for_new_tournament(menu)
+            tournament_infos = ''
+            ret = "Mes"
+            message = "Entrée incorrecte."
 
-        return ret, tournament_infos
+        return (ret, tournament_infos, message)
 
-    def prompt_for_tournament_detail(self, menu, tournament):
+    def prompt_for_tournament_detail(self, menu, tournament, message):
         cls()
-        ret = ''
+        # ret = ''
         match_index = ''
+        print(message)
         print(menu.title)
         print(
             "Nom: " + str(tournament.name) +
@@ -228,13 +241,14 @@ class BashView():
         if len(tournament.rounds) == 0:
             for choice in menu.choices:
                 print(choice)
+            print(message)
+            print(LINE)
             entry = input("Entrez votre choix: ")
             if entry in menu.responses:
                 ret = menu.responses[entry]
             else:
-                print("Entrée incorrecte,\nappuyer sur une touche pour réessayer.")
-                input("")
-                self.prompt_for_tournament_detail(menu, tournament)
+                ret = "Mes"
+                message = "Entrée incorrecte."
         else:
             if len(tournament.rounds) == int(tournament.round_number):
                 menu.choices = [
@@ -266,9 +280,10 @@ class BashView():
                       str(match.player1) + " vs " +
                       str(match.player2))
             print(LINE)
-
         for choice in menu.choices:
             print(choice)
+        print(LINE)
+        print(message)
         print(LINE)
         entry = input("Entrez votre choix: ")
         lst = [format(x, 'd') for x in range(len(round.matchs))]
@@ -279,13 +294,12 @@ class BashView():
             match = round.matchs[int(entry)]
             match_index = int(entry)
         else:
-            print("Entrée incorrecte,\nappuyer sur une touche pour réessayer.")
-            input("")
-            self.prompt_for_tournament_detail(menu, tournament)
+            ret = "Mes"
+            message = "Entrée incorrecte."
 
-        return ret, tournament, match_index
+        return (ret, tournament, match_index, message)
 
-    def prompt_for_match_detail(self, menu, tournament, match_index):
+    def prompt_for_match_detail(self, menu, tournament, match_index, message):
         cls()
         print(menu.title)
         print("N°   Joueur    Total     Score")
@@ -298,24 +312,29 @@ class BashView():
               ": " + str(match.player2[1]) +
               " " + str(match.player2[2]))
         print(LINE)
+        print(message)
+        print(LINE)
         score1 = input("Entrez le score du joueur 1: ")
         score2 = input("Entrez le score du joueur 2: ")
         if score1 in ('0', '0.5', '1') and score2 in ('0', '0.5', '1'):
             scores = (float(score1), float(score2))
+            message = ''
         else:
-            print(
-                "Le score doit être 0, 0.5 ou 1,\nappuyer sur une touche pour réessayer.")
-            input("")
-            self.prompt_for_match_detail(menu, tournament, match_index)
+            scores = ''
+            ret = "Mes"
+            message = "Le score doit être 0, 0.5 ou 1."
+            return (ret, scores, message)
         print(LINE)
         for choice in menu.choices:
             print(choice)
+        print(LINE)
+        print(message)
         print(LINE)
         entry = input("Entrez votre choix: ")
         if entry in menu.responses:
             ret = menu.responses[entry]
         else:
-            print("Entrée incorrecte,\nappuyer sur une touche pour réessayer.")
-            input("")
-            self.prompt_for_match_detail(menu, tournament, match_index)
-        return ret, scores
+            scores = ''
+            ret = "Mes"
+            message = "Entrée incorrecte."
+        return (ret, scores, message)

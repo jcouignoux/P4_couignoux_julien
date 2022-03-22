@@ -28,13 +28,6 @@ class TinyDb():
 
     def add_player(self, player):
         pass
-        # self.players_table.insert({
-        #     'last_name': player.last_name,
-        #     'for_name': player.for_name,
-        #     'birthday': player.birthday,
-        #     'gender': player.gender,
-        #     'ranking': player.ranking
-        # })
         # self.players_table.insert(self.serialize_player(player))
 
     def delete_player(self, player):
@@ -69,7 +62,6 @@ class TinyDb():
                     gender=player_dict['gender'],
                     ranking=int(player_dict['ranking'])
                 )
-                # tournament.players.append(player)
                 tournament.add_player(player)
             for round_list in tournament_dict['rounds']:
                 round = Round(
@@ -95,14 +87,12 @@ class TinyDb():
                         float(match_list[1][1]),
                         float(match_list[1][2])
                     )
-                    # round.matchs.append(match)
                     round.add_match(match)
                     already_played_matchs = (
                         match.player1[0].last_name, match.player2[0].last_name
                     ), (
                         match.player2[0].last_name, match.player1[0].last_name
                     )
-                # tournament.rounds.append(round)
                 tournament.add_round(round)
             tournaments.append(tournament)
 
@@ -110,14 +100,6 @@ class TinyDb():
 
     def add_tournament(self, tournament):
         pass
-        # self.tournaments_table.insert({
-        #     'name': tournament.name,
-        #     'description': tournament.description,
-        #     'date': tournament.date,
-        #     'location': tournament.location,
-        #     'round_number': tournament.round_number,
-        #     'time_controler': tournament.time_controler
-        # })
         # self.tournaments_table.insert(self.serialize_tournament(tournament))
 
     def add_round(self, round):

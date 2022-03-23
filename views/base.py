@@ -33,3 +33,18 @@ class Views:
 
     def prompt_for_match_detail(self, menu, tournament, match_index, message):
         return self.active_view.prompt_for_match_detail(menu, tournament, match_index, message)
+
+    def prompt_for_players_report(self, menu, players, sort, message):
+        return self.active_view.prompt_for_players_report(menu, players, sort, message)
+
+    def prompt_tournament_players_report(self, menu, tournaments, tournament, players, sort, message):
+        return self.active_view.prompt_tournament_players_report(menu, tournaments, tournament, players, sort, message)
+
+    def prompt_tournaments_report(self, menu, tournaments):
+        return self.active_view.prompt_tournament_report(menu, tournaments)
+
+    def prompt_tournament_rounds_report(self, menu, tournaments, tournament, message):
+        return self.active_view.prompt_tournament_rounds_report(menu, tournaments, tournament, message)
+
+    def prompt_tournament_matchs_report(self, menu, tournaments, tournament, message):
+        return self.active_view.prompt_tournament_matchs_report(menu, tournaments, tournament, message)

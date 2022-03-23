@@ -9,12 +9,14 @@ class Menus:
         self.choices = [
             "1: Gestion Tournois",
             "2: Gestion Joueurs",
+            "3: Reports",
             "B: Sauvegarder tout",
             "Q: Quitter"
         ]
         self.responses = {
             "1": "1",
             "2": "2",
+            "3": "3",
             "B": "Bkup",
             "Q": "Quit"
         }
@@ -141,3 +143,69 @@ class Menus:
 
     def is_checked(self, menu):
         pass
+
+    def reports_menu(self):
+        self.title = TITLE + "\n GESTION DES RAPPORT \n" + TITLE
+        self.choices = [
+            "1: Tous les joueurs",
+            "2: Tous les joueurs d'un tournoi",
+            "3: Tous les tournois",
+            "4: Tous les tours d'un tournoi",
+            "5: Tous les matchss d'un tournoi",
+            "R: Retourner à l'accueil"
+        ]
+        self.responses = {
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "R": "Ret"
+        }
+
+        return self
+
+    def players_report_menu(self):
+        self.title = TITLE + "\n RAPPORT JOUEURS\n" + TITLE
+        self.choices = [
+            "1: Ordre alphabétique",
+            "2: Par classement",
+            "R: Retour"
+        ]
+        self.responses = {
+            "1": "1",
+            "2": "2",
+            "R": "Ret"
+        }
+
+        return self
+
+    def tournament_players_report_menu(self):
+        self.title = TITLE + "\n RAPPORT JOUEURS PAR TOURNOI\n" + TITLE
+        self.choices = [
+            "1: Ordre alphabétique",
+            "2: Par classement",
+            "R: Retour"
+        ]
+        self.responses = {
+            "1": "1",
+            "2": "2",
+            "R": "Ret"
+        }
+
+        return self
+
+    def tournaments_report_menu(self):
+        self.title = TITLE + "\n RAPPORT TOURNOI\n" + TITLE
+
+        return self
+
+    def tournament_rounds_menu(self):
+        self.title = TITLE + "\n RAPPORT ROUNDS PAR TOURNOI\n" + TITLE
+
+        return self
+
+    def tournament_matchs_menu(self):
+        self.title = TITLE + "\n RAPPORT MATCHS PAR TOURNOI\n" + TITLE
+
+        return self

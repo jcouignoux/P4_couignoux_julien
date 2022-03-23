@@ -1,15 +1,15 @@
 # from typing import List
 
 from views.menu import Menus
-from .player import *
-from .tournament import *
+from .player import get_all_players, get_players
+from .tournament import get_all_tournaments, get_tournament
+from .report import reports
 
 
 class Controller:
 
     def __init__(self, view):
         self.view = view
-        # self.db = db
         self.menu = Menus()
         self.tournaments = get_all_tournaments()
         self.players = get_all_players()
@@ -36,5 +36,9 @@ class Controller:
                 while True:
                     message = ''
                     get_players(self, self.players, message)
+            elif res[0] == "3":
+                while True:
+                    message = ''
+                    reports(self, self.players, self.tournaments, message)
             elif res[0] == "Mes":
                 message = res[1]

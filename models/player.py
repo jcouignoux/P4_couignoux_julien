@@ -1,4 +1,4 @@
-from datas.base import DataBase as db
+from datas.tinydb import delete_player, save_player, update_player, delete_player
 
 GENDER = ("F", "M")
 # BDAY = NewType('BDAY', datetime)
@@ -15,13 +15,13 @@ class Player:
         self.ranking = int(ranking)
 
     def save(self):
-        db.save_player(self)
+        save_player(self)
 
     def update(self):
-        db.update_player(self)
+        update_player(self)
 
     def delete(self):
-        db.delete_player(self)
+        delete_player(self)
 
     def __str__(self):
         """Used in print."""

@@ -6,8 +6,8 @@ from controllers.base import Controller
 from views.base import Views
 from views.bash import BashView
 from views.tkinter import TkinterView
-from datas.base import DataBase
-from datas.tinydb import TinyDb
+# from datas.base import DataBase
+from datas.tinydb import db as TinyDb
 
 
 def main():
@@ -18,10 +18,10 @@ def main():
     # views = Views(active_view, passive_views)
     views = Views(active_view)
 
-    active_db = TinyDb()
-    db = DataBase(active_db)
+    # active_db = TinyDb
+    # db = DataBase(active_db)
 
-    game = Controller(views, db)
+    game = Controller(views)
     game.run()
 
 

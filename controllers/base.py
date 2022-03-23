@@ -1,21 +1,18 @@
-from typing import List
+# from typing import List
 
 from views.menu import Menus
-from models.player import Player
-from models.tournament import Tournament
 from .player import *
 from .tournament import *
-from views.menu import Menus
 
 
 class Controller:
 
-    def __init__(self, view, db):
+    def __init__(self, view):
         self.view = view
-        self.db = db
+        # self.db = db
         self.menu = Menus()
-        self.tournaments: List[Tournament] = self.db.get_all_tournaments()
-        self.players: List[Player] = self.db.get_all_players()
+        self.tournaments = get_all_tournaments()
+        self.players = get_all_players()
 
     def run(self):
         running = True
@@ -25,8 +22,12 @@ class Controller:
             if res[0] == "Quit":
                 running = False
             elif res[0] == "Bkup":
+                for player in self.players:
+                    player.update()
+                    # self.db.save_player(player)
                 for tournament in self.tournaments:
-                    self.db.update_tournament(tournament)
+                    tournament.update()
+                    # self.db.update_tournament(tournament)
             elif res[0] == "1":
                 while True:
                     message = ''

@@ -1,8 +1,63 @@
-from typing import List
 from datetime import datetime
 
 from models.tournament import Tournament, Round, Match
 from .player import *
+from datas.tinydb import all_tournaments
+
+
+def get_all_tournaments():
+    tournaments = []
+    for tournament_dict in all_tournaments():
+        tournament = Tournament(
+            name=tournament_dict['name'],
+            description=tournament_dict['description'],
+            date=tournament_dict['date'],
+            location=tournament_dict['location'],
+            round_number=int(tournament_dict['round_number']),
+            time_controler=tournament_dict['time_controler']
+        )
+        for player_dict in tournament_dict['players']:
+            player = Player(
+                last_name=player_dict['last_name'],
+                for_name=player_dict['for_name'],
+                birthday=player_dict['birthday'],
+                gender=player_dict['gender'],
+                ranking=int(player_dict['ranking'])
+            )
+            tournament.add_player(player)
+        for round_list in tournament_dict['rounds']:
+            round = Round(
+                number=round_list['number'],
+                start_date=round_list['start_date'],
+                end_date=round_list['end_date']
+            )
+            for match_list in round_list['matchs']:
+                f1 = match_list[0][0]['last_name']
+                p1 = filter(lambda x: f1 in x.last_name,
+                            tournament.players)
+                f2 = match_list[1][0]['last_name']
+                p2 = filter(lambda x: f2 in x.last_name,
+                            tournament.players)
+                match = Match()
+                match.player1 = (
+                    list(p1)[0],
+                    float(match_list[0][1]),
+                    float(match_list[0][2])
+                )
+                match.player2 = (
+                    list(p2)[0],
+                    float(match_list[1][1]),
+                    float(match_list[1][2])
+                )
+                round.add_match(match)
+                already_played_matchs = (
+                    match.player1[0].last_name, match.player2[0].last_name
+                ), (
+                    match.player2[0].last_name, match.player1[0].last_name
+                )
+            tournament.add_round(round)
+        tournaments.append(tournament)
+    return tournaments
 
 
 def get_tournament(self, tournaments, message):
@@ -46,6 +101,9 @@ def get_tournament_detail(self, tournament, message):
     elif res[0] == "Mes":
         message = res[3]
         get_tournament_detail(self, tournament, message)
+    elif res[0] == "Del":
+        message = ''
+        tournament.delete
     elif res[0] == "Close":
         message = ''
         pass
@@ -59,24 +117,26 @@ def get_new_tournament(self, adding_player, message):
             self.menu.create_tournament_menu(), message)
         if res[0] == "Abort":
             message = ''
-            get_tournament(self, message)
+            get_tournament(self, self.tournaments, message)
         elif res[0] == "Create":
             try:
-                self.tournament = Tournament(
+                tournament = Tournament(
                     res[1][0], res[1][1], date, res[1][2], res[1][3], res[1][4])
                 message = ''
             except Exception as e:
                 message = e
                 get_new_tournament(self, adding_player, message)
             while adding_player == True:
-                add_players(self, self.tournament, message)
+                add_players(self, tournament, message)
         if res[0] == "Mes":
             message = res[2]
             get_new_tournament(self, adding_player, message)
     else:
-        add_round(self.tournament)
-        self.tournaments.append(self.tournament)
-        get_tournament_detail(self, self.tournament, message)
+        add_round(tournament)
+        self.tournaments.append(tournament)
+        self.tournament = tournament
+        self.db.save_tournament(self.tournament)
+        get_tournament_detail(self, tournament, message)
 
 
 def add_players(self, tournament, message):
@@ -92,6 +152,7 @@ def add_players(self, tournament, message):
     elif res[0] == "Create":
         player = create_player(self, message)
         tournament.add_player(player)
+        # tournament = self.tournament
     elif res[0] == "Mes":
         message = res[2]
         add_players(self, tournament, message)

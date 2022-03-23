@@ -1,10 +1,5 @@
-from typing import List
-import json
+from datas.tinydb import save_tournament, update_tournament, delete_tournament
 from .player import Player
-from tinydb import TinyDB, where
-
-db = TinyDB('db/db.json')
-table = db.table('_tournaments')
 
 
 class Match:
@@ -44,10 +39,10 @@ class Round:
 class Tournament:
 
     def __init__(self, name, description, date, location, round_number, time_controler):  # , rounds, players
-        self.name = name
-        self.description = description
+        self.name = str(name)
+        self.description = str(description)
         self.date = date
-        self.location = location
+        self.location = str(location)
         self.round_number = int(round_number)
         self.rounds = []
         self.players = []
@@ -67,7 +62,15 @@ class Tournament:
         for round in self.rounds:
             if round.is_already_played_round(couple):
                 return True
-        # return True
+
+    def save(self):
+        save_tournament(self)
+
+    def update(self):
+        update_tournament(self)
+
+    def delete(self):
+        delete_tournament(self)
 
     def __str__(self):
         """Used in print."""

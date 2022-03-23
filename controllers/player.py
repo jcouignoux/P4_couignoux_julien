@@ -1,4 +1,19 @@
 from models.player import Player
+from datas.tinydb import all_players
+
+
+def get_all_players():
+    players = []
+    for serialized_player in all_players():
+        player = Player(
+            last_name=serialized_player['last_name'],
+            for_name=serialized_player['for_name'],
+            birthday=serialized_player['birthday'],
+            gender=serialized_player['gender'],
+            ranking=int(serialized_player['ranking']),
+        )
+        players.append(player)
+    return players
 
 
 def get_players(self, players, message):
@@ -13,9 +28,6 @@ def get_players(self, players, message):
     elif res[0] == "Mod":
         message = ''
         modify_player(self, res[1], message)
-    elif res[0] == "Del":
-        message = ''
-        delete_player(self, res[1], message)
     elif res[0] == "Mes":
         message = res[2]
         get_players(self, players, message)
@@ -32,7 +44,7 @@ def create_player(self, message):
                             [2], res[1][3], res[1][4])
             self.players.append(player)
             # self.db.save_player(player)
-            player.save
+            player.save()
         except Exception as e:
             message = e
             create_player(self, message)

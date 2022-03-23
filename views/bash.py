@@ -258,17 +258,18 @@ class BashView():
             if len(tournament.rounds) == int(tournament.round_number):
                 menu.choices = [
                     "C: Clore le tournoi",
+                    "D: Supprimer le tournoi",
                     "R: Retour"
                 ]
-                menu.responses = {"T": "Close", "R": "Ret"}
+                menu.responses = {"T": "Close", "D": "Del", "R": "Ret"}
             else:
                 menu.choices = [
                     "Entrez l'id du match à valider",
-                    # "Nouveau tour",
                     "V: Valider le tour",
+                    "D: Supprimer le tournoi",
                     "R: Retour"
                 ]
-                menu.responses = {"V": "Val", "R": "Ret"}
+                menu.responses = {"V": "Val", "D": "Del", "R": "Ret"}
         print(LINE)
         for round in tournament.rounds:
             print(

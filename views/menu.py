@@ -52,10 +52,12 @@ class Menus:
         self.title = TITLE + "\n INFORMATION TOURNOI \n" + TITLE
         self.choices = [
             "S: Lancer le tournoi",
+            "D: Supprimer le tournoi",
             "R: Retour"
         ]
         self.responses = {
             "S": "Start",
+            "D": "Del",
             "R": "Ret"
         }
 
@@ -136,3 +138,6 @@ class Menus:
         }
 
         return self
+
+    def is_checked(self, menu):
+        pass

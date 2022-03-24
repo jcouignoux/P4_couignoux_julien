@@ -37,7 +37,7 @@ def create_player(self, message):
     res = self.view.prompt_for_create_player(
         self.menu.create_player_menu(), message)
     if res[0] == "Abort":
-        get_players(self.players, message)
+        get_players(self, self.players, message)
     elif res[0] == "Create":
         try:
             player = Player(res[1][0], res[1][1], res[1]
@@ -62,7 +62,8 @@ def modify_player(self, player, message):
     res = self.view.prompt_for_modify_player(
         self.menu.modify_player_menu(), player, message)
     if res[0] == "Abort":
-        get_players(self, self.players)
+        message = ''
+        get_players(self, self.players, message)
     elif res[0] == "Mod":
         player.ranking = int(res[1])
         player.update

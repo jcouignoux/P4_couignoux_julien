@@ -15,9 +15,7 @@ def get_all_tournaments():
             date=tournament_dict['date'],
             location=tournament_dict['location'],
             round_number=int(tournament_dict['round_number']),
-            time_controler=tournament_dict['time_controler'],
-            # status=tournament_dict['status'],
-            # result=tournament_dict['result']
+            time_controler=tournament_dict['time_controler']
         )
         for player_dict in tournament_dict['players']:
             player = Player(
@@ -227,13 +225,10 @@ def add_round(tournament):
                             input('')
                             i2 += 1
                     else:
-                        # print("p2 pas dans player_pop")
                         i2 += 1
                 else:
-                    # print("p1 pas dans player_pop")
                     i1 += 1
                     i2 = i1 + 1
-        # input('fin')
     tournament.add_round(round)
 
 

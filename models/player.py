@@ -1,4 +1,4 @@
-from datas.tinydb import delete_player, save_player, update_player, delete_player
+from datas.tinydb import delete_player, save_player, update_player
 
 GENDER = ("F", "M")
 # BDAY = NewType('BDAY', datetime)
@@ -8,8 +8,8 @@ GENDER = ("F", "M")
 class Player:
 
     def __init__(self, last_name, for_name, birthday, gender, ranking):
-        self.last_name = last_name
-        self.for_name = for_name
+        self.last_name = str(last_name)
+        self.for_name = str(for_name)
         self.birthday = birthday
         self.gender = gender
         self.ranking = int(ranking)

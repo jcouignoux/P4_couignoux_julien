@@ -78,13 +78,12 @@ def update_match(self, tournament, r):
     input('')
 
 
-def update_tournament(self, tournament):
-    serialized_tournament = self.serialize_tournament(tournament)
-    print(serialized_tournament)
-    doc = self.tournaments_table.all()
+def update_tournament(tournament):
+    serialized_tournament = serialize_tournament(tournament)
+    doc = tournaments_table.all()
     for d in doc:
         if d['name'] == tournament.name:
-            self.tournaments_table.update(
+            tournaments_table.update(
                 serialized_tournament, doc_ids=[d.doc_id])
     return 1
 

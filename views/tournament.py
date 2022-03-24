@@ -1,159 +1,10 @@
-import os
 LINE = "-----------------------------------------------"
 TITLE = "##############################################"
 
 
-def cls():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
-class BashView():
-
-    def prompt_for_main(self, menu, message):
-        cls()
-        print(menu.title)
-        for choice in menu.choices:
-            print(choice)
-        print(LINE)
-        print(message)
-        print(LINE)
-        entry = input("Que souhaitez-vous faire: ")
-        if entry in menu.responses:
-            return (menu.responses[entry], message)
-        else:
-            message = "Entrée incorrecte."
-            return ("Mes", message)
-
-    def prompt_for_player(self, menu, players, message):
-        cls()
-        print(menu.title)
-        for player in players:
-            index = players.index(player)
-            print(str(index) + ": " + str(player) +
-                  " (" + str(player.birthday) + ", " + str(player.gender) +
-                  ", " + str(player.ranking) + ")")
-        print(LINE)
-        print(message)
-        print(LINE)
-        for choice in menu.choices:
-            print(choice)
-        print(LINE)
-        entry = input("Entrez votre choix: ")
-        lst = [format(x, 'd') for x in range(len(players))]
-        if entry in lst:
-            player = players[int(entry)]
-            ret = "Mod"
-        elif entry in menu.responses:
-            player = ""
-            ret = menu.responses[entry]
-        else:
-            ret = "Mes"
-            message = "Entrée incorrecte."
-
-        return (ret, player, message)
-
-    def prompt_for_add_player(self, menu, tournament, players, message):
-        cls()
-        print(menu.title)
-        for player in players:
-            index = players.index(player)
-            print(str(index) + ": " + str(player))
-        print(LINE)
-        print(tournament.players)
-        print(LINE)
-        for choice in menu.choices:
-            print(choice)
-        print(LINE)
-        print(message)
-        print(LINE)
-        entry = input("Entrez votre choix: ")
-        lst = [format(x, 'd') for x in range(len(players))]
-        print(LINE)
-        if entry in lst:
-            player = players[int(entry)]
-            if player not in tournament.players:
-                ret = "Add"
-            else:
-                ret = 'Mes'
-                player = ''
-                message = "Joueur déjà sélectionné."
-        elif entry in menu.responses:
-            if entry == "S":
-                player = ''
-                ret = menu.responses[entry]
-                if len(tournament.players) <= int(tournament.round_number):
-                    ret = "Mes"
-                    message = "Il doit y avoir au moins un joueur de plus que de tour"
-                if (len(tournament.players) % 2) != 0:
-                    ret = "Mes"
-                    message = "Il doit y avoir un nombre de joueurs paire"
-                # else:
-                #     ret = menu.responses[entry]
-            else:
-                player = ""
-                ret = menu.responses[entry]
-        else:
-            player = ''
-            ret = "Mes"
-            message = "Entrée incorrecte."
-
-        return (ret, player, message)
-
-    def prompt_for_create_player(self, menu, message):
-        cls()
-        print(menu.title)
-        print(message)
-        print(LINE)
-        last_name = input("Entrez le nom du joueur: ")
-        for_name = input("Entrez le prénom du joueur: ")
-        birthday = input(
-            "Entrez la date de naissance du joueur (JJ/MM/YY): ")
-        gender = input("Entrez le sexe du joueur (M/F): ")
-        ranking = input("Entrez le classement du joueur: ")
-        print(LINE)
-        for choice in menu.choices:
-            print(choice)
-        print(LINE)
-        entry = input("Entrez votre choix: ")
-        if entry in menu.responses:
-            ret = menu.responses[entry]
-            player = (last_name, for_name, birthday, gender, ranking)
-        else:
-            player = ''
-            ret = "Mes"
-            message = "Entrée incorrecte."
-
-        return (ret, player, message)
-
-    def prompt_for_modify_player(self, menu, player, message):
-        cls()
-        print(menu.title)
-        print(player)
-        for select in menu.select:
-            print(select + ": " + str(player.ranking))
-        print(LINE)
-        print(message)
-        print(LINE)
-        val = input("Entrez la nouvelle valeur: ")
-        for choice in menu.choices:
-            print(choice)
-        entry = input("Valider ou Abandonner: ")
-        if entry in menu.responses:
-            ret = menu.responses[entry]
-            message = ''
-            if isinstance(val, int):
-                ret = "Mod"
-                val = int(val)
-        else:
-            ret = "Mes"
-            message = "Entrée incorrecte."
-        print(LINE)
-
-        return (ret, val, message)
-
+class TournamentView:
     def prompt_for_tournament(self, menu, tournaments, message):
         """Prompt for tournament."""
-        cls()
         print(menu.title)
         for tournament in tournaments:
             index = tournaments.index(tournament)
@@ -180,7 +31,6 @@ class BashView():
         return (ret, tournament, message)
 
     def prompt_for_new_tournament(self, menu, message):
-        cls()
         print(menu.title)
         print(message)
         print(LINE)
@@ -207,7 +57,6 @@ class BashView():
         return (ret, tournament_infos, message)
 
     def prompt_for_tournament_detail(self, menu, tournament, message):
-        cls()
         # ret = ''
         match_index = ''
         print(message)
@@ -309,7 +158,6 @@ class BashView():
         return (ret, tournament, match_index, message)
 
     def prompt_for_match_detail(self, menu, tournament, match_index, message):
-        cls()
         print(menu.title)
         print("N°   Joueur    Total     Score")
         print(LINE)
@@ -347,3 +195,49 @@ class BashView():
             ret = "Mes"
             message = "Entrée incorrecte."
         return (ret, scores, message)
+
+    def prompt_for_add_player(self, menu, tournament, players, message):
+        print(menu.title)
+        for player in players:
+            index = players.index(player)
+            print(str(index) + ": " + str(player))
+        print(LINE)
+        print(tournament.players)
+        print(LINE)
+        for choice in menu.choices:
+            print(choice)
+        print(LINE)
+        print(message)
+        print(LINE)
+        entry = input("Entrez votre choix: ")
+        lst = [format(x, 'd') for x in range(len(players))]
+        print(LINE)
+        if entry in lst:
+            player = players[int(entry)]
+            if player not in tournament.players:
+                ret = "Add"
+            else:
+                ret = 'Mes'
+                player = ''
+                message = "Joueur déjà sélectionné."
+        elif entry in menu.responses:
+            if entry == "S":
+                player = ''
+                ret = menu.responses[entry]
+                if len(tournament.players) <= int(tournament.round_number):
+                    ret = "Mes"
+                    message = "Il doit y avoir au moins un joueur de plus que de tour"
+                if (len(tournament.players) % 2) != 0:
+                    ret = "Mes"
+                    message = "Il doit y avoir un nombre de joueurs paire"
+                # else:
+                #     ret = menu.responses[entry]
+            else:
+                player = ""
+                ret = menu.responses[entry]
+        else:
+            player = ''
+            ret = "Mes"
+            message = "Entrée incorrecte."
+
+        return (ret, player, message)

@@ -3,8 +3,8 @@ LINE = "-----------------------------------------------"
 TITLE = "##############################################"
 
 
-class ReportView():
-    def prompt_reports(menu, message):
+class ReportView:
+    def prompt_for_reports(self, menu, message):
         print(menu.title)
         for choice in menu.choices:
             print(choice)
@@ -20,7 +20,7 @@ class ReportView():
 
         return (ret, message)
 
-    def prompt_players_report(menu, players, sort, message):
+    def prompt_for_players_report(self, menu, players, sort, message):
         print(menu.title)
         if not sort:
             for choice in menu.choices:
@@ -46,7 +46,7 @@ class ReportView():
 
         return (ret, message)
 
-    def prompt_tournament_players_report(menu, tournaments, tournament, players, sort, message):
+    def prompt_for_tournament_players_report(self, menu, tournaments, tournament, players, sort, message):
         print(menu.title)
         if tournament == '':
             for t in tournaments:
@@ -65,6 +65,7 @@ class ReportView():
             else:
                 ret = "Mes"
                 message = "Entrée incorrecte."
+            return (ret, tournament, message)
         else:
             print(tournament.name)
             print(LINE)
@@ -91,7 +92,7 @@ class ReportView():
                 print(LINE)
                 input("Appuyer sur une touche pour continuer...")
 
-    def prompt_tournaments_report(menu, tournaments):
+    def prompt_for_tournaments_report(self, menu, tournaments):
         print(menu.title)
         for tournament in tournaments:
             print(tournament.name, tournament.description, tournament.date,
@@ -100,7 +101,7 @@ class ReportView():
             print(LINE)
         input("Appuyer sur une touche pour continuer...")
 
-    def prompt_tournament_rounds_report(menu, tournaments, tournament, message):
+    def prompt_for_tournament_rounds_report(self, menu, tournaments, tournament, message):
         print(menu.title)
         if tournament == '':
             for t in tournaments:
@@ -125,9 +126,9 @@ class ReportView():
             print(LINE)
             for round in tournament.rounds:
                 print(round.number, round.start_date, round.end_date)
-                input("Appuyer sur une touche pour continuer...")
+            input("Appuyer sur une touche pour continuer...")
 
-    def prompt_tournament_matchs_report(menu, tournaments, tournament, message):
+    def prompt_for_tournament_matchs_report(self, menu, tournaments, tournament, message):
         print(menu.title)
         if tournament == '':
             for t in tournaments:

@@ -3,7 +3,7 @@
 from views.menu import Menus
 from .player import get_all_players, get_players
 from .tournament import get_all_tournaments, get_tournament
-from .report import reports
+from .report import get_reports
 
 
 class Controller:
@@ -39,6 +39,6 @@ class Controller:
             elif res[0] == "3":
                 while True:
                     message = ''
-                    reports(self, self.players, self.tournaments, message)
+                    get_reports(self, self.players, self.tournaments, message)
             elif res[0] == "Mes":
                 message = res[1]

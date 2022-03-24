@@ -66,8 +66,6 @@ class BashView():
         print(LINE)
         print(message)
         print(LINE)
-        print(len(tournament.players))
-        print(int(tournament.round_number))
         entry = input("Entrez votre choix: ")
         lst = [format(x, 'd') for x in range(len(players))]
         print(LINE)
@@ -77,7 +75,7 @@ class BashView():
                 ret = "Add"
             else:
                 ret = 'Mes'
-                pleyer = ''
+                player = ''
                 message = "Joueur déjà sélectionné."
         elif entry in menu.responses:
             if entry == "S":
@@ -86,7 +84,7 @@ class BashView():
                 if len(tournament.players) <= int(tournament.round_number):
                     ret = "Mes"
                     message = "Il doit y avoir au moins un joueur de plus que de tour"
-                if (len(tournament.players) % 2) == 0:
+                if (len(tournament.players) % 2) != 0:
                     ret = "Mes"
                     message = "Il doit y avoir un nombre de joueurs paire"
                 # else:
@@ -121,6 +119,7 @@ class BashView():
             ret = menu.responses[entry]
             player = (last_name, for_name, birthday, gender, ranking)
         else:
+            player = ''
             ret = "Mes"
             message = "Entrée incorrecte."
 
@@ -261,7 +260,7 @@ class BashView():
                     "D: Supprimer le tournoi",
                     "R: Retour"
                 ]
-                menu.responses = {"T": "Close", "D": "Del", "R": "Ret"}
+                menu.responses = {"C": "Close", "D": "Del", "R": "Ret"}
             else:
                 menu.choices = [
                     "Entrez l'id du match à valider",

@@ -231,9 +231,13 @@ class BashView():
         print("Classement des joueurs")
         print(LINE)
         players_list = []
-        for match in tournament.rounds[-1].matchs:
-            players_list.append(match.player1)
-            players_list.append(match.player2)
+        if tournament.status:
+            for match in tournament.rounds[-1].matchs:
+                players_list.append(match.player1)
+                players_list.append(match.player2)
+        else:
+            for p in tournament.result:
+                players_list.append(p)
         player_sorted = sorted(
             players_list, key=lambda k: (-k[1], k[0].ranking))
         for player in player_sorted:

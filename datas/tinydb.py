@@ -15,8 +15,6 @@ def all_players():
 
 def save_player(player):
     # pass
-    print(player)
-    input('')
     players_table.insert(serialize_player(player))
 
 
@@ -42,8 +40,8 @@ def all_tournaments():
 
 
 def save_tournament(tournament):
-    pass
-    # self.tournaments_table.insert(self.serialize_tournament(tournament))
+    # pass
+    tournaments_table.insert(serialize_tournament(tournament))
 
 
 def delete_tournament(self, tournament):
@@ -130,6 +128,14 @@ def serialize_round(round):
     return serialized_round
 
 
+def serialize_result(result):
+    serialized_result = [
+        serialize_player(result[0]),
+        result[1]
+    ]
+    return serialized_result
+
+
 def serialize_tournament(tournament):
     rounds = []
     for round in tournament.rounds:
@@ -137,6 +143,9 @@ def serialize_tournament(tournament):
     players = []
     for player in tournament.players:
         players.append(serialize_player(player))
+    result = []
+    for res in tournament.result:
+        result.append(serialize_result(res))
     serialized_tournament = {
         'name': tournament.name,
         'description': tournament.description,
@@ -145,6 +154,8 @@ def serialize_tournament(tournament):
         'round_number': tournament.round_number,
         'rounds': rounds,
         'players': players,
-        'time_controler': tournament.time_controler
+        'time_controler': tournament.time_controler,
+        'status': tournament.status,
+        'result': result
     }
     return serialized_tournament

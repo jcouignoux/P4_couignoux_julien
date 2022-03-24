@@ -38,7 +38,7 @@ class Round:
 
 class Tournament:
 
-    def __init__(self, name, description, date, location, round_number, time_controler):  # , rounds, players
+    def __init__(self, name, description, date, location, round_number, time_controler):
         self.name = str(name)
         self.description = str(description)
         self.date = date
@@ -47,6 +47,8 @@ class Tournament:
         self.rounds = []
         self.players = []
         self.time_controler = time_controler
+        self.status = True
+        self.result = []
 
     def add_player(self, player):
         if not isinstance(player, Player):

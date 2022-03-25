@@ -1,4 +1,3 @@
-import os
 LINE = "-----------------------------------------------"
 TITLE = "##############################################"
 
@@ -36,6 +35,8 @@ class ReportView:
                 message = "Entrée incorrecte."
         else:
             print(message)
+            print(LINE)
+            print("Nom Prénom Naissance Sexe Classement")
             print(LINE)
             for player in players:
                 print(player.last_name, player.for_name,
@@ -85,6 +86,8 @@ class ReportView:
             else:
                 print(message)
                 print(LINE)
+                print("Nom Prénom Naissance Sexe Classement Score")
+                print(LINE)
                 for player in players:
                     print(player[0].last_name, player[0].for_name,
                           player[0].birthday, player[0].gender, player[0].ranking, player[1])
@@ -95,6 +98,8 @@ class ReportView:
     def prompt_for_tournaments_report(self, menu, tournaments):
         print(menu.title)
         for tournament in tournaments:
+            print("Nom Description Date Localisation Nb Tour Temps Joueurs")
+            print(LINE)
             print(tournament.name, tournament.description, tournament.date,
                   tournament.location, tournament.round_number, tournament.time_controler,
                   tournament.players)
@@ -124,6 +129,8 @@ class ReportView:
         else:
             print(tournament.name)
             print(LINE)
+            print("Num Date Début Date Fin")
+            print(LINE)
             for round in tournament.rounds:
                 print(round.number, round.start_date, round.end_date)
             input("Appuyer sur une touche pour continuer...")
@@ -150,6 +157,8 @@ class ReportView:
             return (ret, tournament, message)
         else:
             print(tournament.name)
+            print(LINE)
+            print("Joueur1 Joueur2")
             print(LINE)
             for round in tournament.rounds:
                 for match in round.matchs:

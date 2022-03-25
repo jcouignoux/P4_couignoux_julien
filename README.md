@@ -54,7 +54,11 @@ The next round is automatly created
 
 ![](README/main_page.png)
 
+## REPORT
 
+> Manage the Report from __3: Reports__
+
+![](README/report_page.png)
 -----
 > How to generate a flake8 report
 

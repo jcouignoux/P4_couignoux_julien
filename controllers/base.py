@@ -1,44 +1,50 @@
 # from typing import List
 
 from views.menu import Menus
-from .player import get_all_players, get_players
-from .tournament import get_all_tournaments, get_tournament
-from .report import get_reports
+# from .player import get_all_players, get_players
+from .player import PlayerController as pc
+# from .tournament import get_all_tournaments, get_tournament
+from .tournament import TournamentController as tc
+# from .report import get_reports
+from .report import ReportController as rc
+# from models.player import Player
+# from models.tournament import Tournament
+# from models.round import Round, Match
 
 
 class Controller:
 
-    def __init__(self, view):
+    def __init__(self, view, db):
         self.view = view
+        self.db = db
+        self.tc = tc
+        self.pc = pc
+        self.rc = rc
         self.menu = Menus()
-        self.tournaments = get_all_tournaments()
-        self.players = get_all_players()
+        self.tournaments = tc.get_all_tournaments(self)
+        self.players = pc.get_all_players(self)
+        self.running = True
 
     def run(self):
-        running = True
         message = ''
-        while running:
+        while self.running:
             res = self.view.prompt_for_main(self.menu.main_menu(), message)
             if res[0] == "Quit":
-                running = False
+                self.running = False
             elif res[0] == "Bkup":
                 for player in self.players:
-                    player.update()
-                    # self.db.save_player(player)
+                    player.update
                 for tournament in self.tournaments:
-                    tournament.update()
-                    # self.db.update_tournament(tournament)
+                    tournament.update
             elif res[0] == "1":
-                while True:
-                    message = ''
-                    get_tournament(self, self.tournaments, message)
+                message = ''
+                self.tc.get_tournament(self, self.tournaments, message)
             elif res[0] == "2":
-                while True:
-                    message = ''
-                    get_players(self, self.players, message)
+                message = ''
+                self.pc.get_players(self, self.players, message)
             elif res[0] == "3":
-                while True:
-                    message = ''
-                    get_reports(self, self.players, self.tournaments, message)
+                message = ''
+                self.rc.get_reports(self, self.players,
+                                    self.tournaments, message)
             elif res[0] == "Mes":
                 message = res[1]

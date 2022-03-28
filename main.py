@@ -4,16 +4,15 @@
 from controllers.base import Controller
 
 from views.base import Views
-# from views.bash import BashView
+from datas.tinydb import DataBase
 
 
 def main():
 
-    # active_view = BashView()
-    # views = Views(active_view)
     view = Views()
+    dbase = DataBase()
 
-    game = Controller(view)
+    game = Controller(view, dbase)
     game.run()
 
 

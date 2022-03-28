@@ -1,4 +1,5 @@
-from datas.tinydb import save_tournament, update_tournament, delete_tournament
+# from datas.tinydb import save_tournament, update_tournament, delete_tournament
+from datas.tinydb import DataBase as db
 from .player import Player
 from .round import Round
 
@@ -33,13 +34,13 @@ class Tournament:
                 return True
 
     def save(self):
-        save_tournament(self)
+        db.save_tournament(self)
 
     def update(self):
-        update_tournament(self)
+        db.update_tournament(self)
 
     def delete(self):
-        delete_tournament(self)
+        db.delete_tournament(self)
 
     def __str__(self):
         """Used in print."""

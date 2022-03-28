@@ -4,6 +4,7 @@ TITLE = "##############################################"
 
 class ReportView:
     def prompt_for_reports(self, menu, message):
+        self.cls()
         print(menu.title)
         for choice in menu.choices:
             print(choice)
@@ -20,6 +21,7 @@ class ReportView:
         return (ret, message)
 
     def prompt_for_players_report(self, menu, players, sort, message):
+        self.cls()
         print(menu.title)
         if not sort:
             for choice in menu.choices:
@@ -48,6 +50,7 @@ class ReportView:
         return (ret, message)
 
     def prompt_for_tournament_players_report(self, menu, tournaments, tournament, players, sort, message):
+        self.cls()
         print(menu.title)
         if tournament == '':
             for t in tournaments:
@@ -96,6 +99,7 @@ class ReportView:
                 input("Appuyer sur une touche pour continuer...")
 
     def prompt_for_tournaments_report(self, menu, tournaments):
+        self.cls()
         print(menu.title)
         for tournament in tournaments:
             print("Nom Description Date Localisation Nb Tour Temps Joueurs")
@@ -107,6 +111,7 @@ class ReportView:
         input("Appuyer sur une touche pour continuer...")
 
     def prompt_for_tournament_rounds_report(self, menu, tournaments, tournament, message):
+        self.cls()
         print(menu.title)
         if tournament == '':
             for t in tournaments:
@@ -136,6 +141,7 @@ class ReportView:
             input("Appuyer sur une touche pour continuer...")
 
     def prompt_for_tournament_matchs_report(self, menu, tournaments, tournament, message):
+        self.cls()
         print(menu.title)
         if tournament == '':
             for t in tournaments:

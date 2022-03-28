@@ -4,6 +4,7 @@ TITLE = "##############################################"
 
 class PlayerView:
     def prompt_for_player(self, menu, players, message):
+        self.cls()
         print(menu.title)
         for player in players:
             index = players.index(player)
@@ -31,6 +32,7 @@ class PlayerView:
         return (ret, player, message)
 
     def prompt_for_create_player(self, menu, message):
+        self.cls()
         print(menu.title)
         print(message)
         print(LINE)
@@ -56,6 +58,7 @@ class PlayerView:
         return (ret, player, message)
 
     def prompt_for_modify_player(self, menu, player, message):
+        self.cls()
         print(menu.title)
         print(player)
         for select in menu.select:

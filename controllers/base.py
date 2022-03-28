@@ -1,15 +1,7 @@
-# from typing import List
-
 from views.menu import Menus
-# from .player import get_all_players, get_players
 from .player import PlayerController as pc
-# from .tournament import get_all_tournaments, get_tournament
 from .tournament import TournamentController as tc
-# from .report import get_reports
 from .report import ReportController as rc
-# from models.player import Player
-# from models.tournament import Tournament
-# from models.round import Round, Match
 
 
 class Controller:

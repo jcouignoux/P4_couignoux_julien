@@ -1,4 +1,3 @@
-# from datas.tinydb import delete_player, save_player, update_player
 from datas.tinydb import DataBase as db
 
 GENDER = ("F", "M")

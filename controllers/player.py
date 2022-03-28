@@ -1,11 +1,7 @@
-# from .base import Controller
 from models.player import Player
 
 
 class PlayerController():
-
-    # def __init__(self):
-    #     self = self.pc
 
     def get_all_players(self):
         players = []
@@ -48,7 +44,6 @@ class PlayerController():
                 player = Player(res[1][0], res[1][1], res[1]
                                 [2], res[1][3], res[1][4])
                 self.players.append(player)
-                # self.db.save_player(player)
                 player.save
             except Exception as e:
                 message = e

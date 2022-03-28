@@ -1,4 +1,3 @@
-# from datas.tinydb import save_tournament, update_tournament, delete_tournament
 from datas.tinydb import DataBase as db
 from .player import Player
 from .round import Round

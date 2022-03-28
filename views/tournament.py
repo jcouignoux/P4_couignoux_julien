@@ -235,8 +235,6 @@ class TournamentView:
                 if (len(tournament.players) % 2) != 0:
                     ret = "Mes"
                     message = "Il doit y avoir un nombre de joueurs paire"
-                # else:
-                #     ret = menu.responses[entry]
             else:
                 player = ""
                 ret = menu.responses[entry]

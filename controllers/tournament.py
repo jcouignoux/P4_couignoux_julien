@@ -3,14 +3,9 @@ from datetime import datetime
 from models.tournament import Tournament
 from models.round import Round, Match
 from models.player import Player
-from .player import PlayerController as pc
-from datas.tinydb import DataBase as db
 
 
 class TournamentController:
-
-    # def __init__(self):
-    #     self.db = db
 
     def get_all_tournaments(self):
         tournaments = []
@@ -108,7 +103,6 @@ class TournamentController:
             message = 'Tournoi Terminé'
             self.tc.close_tournament(tournament)
             self.tc.get_tournament_detail(self, tournament, message)
-            # self.db.update_tournament
 
     def get_new_tournament(self, adding_player, message):
         if adding_player:
@@ -193,6 +187,7 @@ class TournamentController:
                                players_list_sorted[i1][1], 0]
                     # Test if first ans second players in ref list
                     if players_list_sorted[i1][0] in player_list_pop:
+                        print(players_list_sorted[i2][0])
                         if players_list_sorted[i2][0] in player_list_pop:
                             # Check if match already played
                             couple = (

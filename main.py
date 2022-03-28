@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from controllers.base import Controller
-
 from views.base import Views
 from datas.tinydb import DataBase
 

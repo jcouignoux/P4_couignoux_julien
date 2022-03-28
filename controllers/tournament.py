@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from models.tournament import Tournament, Round, Match
+from models.tournament import Tournament
+from models.round import Round, Match
 from models.player import Player
 from .player import create_player
 from datas.tinydb import all_tournaments

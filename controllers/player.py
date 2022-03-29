@@ -38,13 +38,16 @@ class PlayerController():
         res = self.view.pv.prompt_for_create_player(
             self.view, self.menu.create_player_menu(), message)
         if res[0] == "Abort":
+            message = ''
             self.pc.get_players(self, self.players, message)
         elif res[0] == "Create":
             try:
-                player = Player(res[1][0], res[1][1], res[1]
-                                [2], res[1][3], res[1][4])
-                self.players.append(player)
-                player.save
+                self.player = Player(res[1][0], res[1][1], res[1]
+                                     [2], res[1][3], res[1][4])
+                # player = self.pm(res[1][0], res[1][1], res[1]
+                #                  [2], res[1][3], res[1][4])
+                self.players.append(self.player)
+                # self.player.save()
             except Exception as e:
                 message = e
                 self.pc.create_player(self, message)
@@ -55,7 +58,7 @@ class PlayerController():
             return self.player
         elif res[0] == "Mes":
             message = res[2]
-            self.create_player(self, message)
+            self.pc.create_player(self, message)
 
     def modify_player(self, player, message):
         res = self.view.pv.prompt_for_modify_player(

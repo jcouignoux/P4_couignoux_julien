@@ -25,9 +25,9 @@ class Controller:
                 self.running = False
             elif res[0] == "Bkup":
                 for player in self.players:
-                    player.update
+                    player.update()
                 for tournament in self.tournaments:
-                    tournament.update
+                    tournament.update()
             elif res[0] == "1":
                 message = ''
                 self.tc.get_tournament(self, self.tournaments, message)

@@ -1,10 +1,12 @@
+import os
 LINE = "-----------------------------------------------"
 TITLE = "##############################################"
 
 
 class TournamentView:
+
     def prompt_for_tournament(self, menu, tournaments, message):
-        """Prompt for tournament."""
+        self.cls()
         print(menu.title)
         for tournament in tournaments:
             index = tournaments.index(tournament)
@@ -31,6 +33,7 @@ class TournamentView:
         return (ret, tournament, message)
 
     def prompt_for_new_tournament(self, menu, message):
+        self.cls()
         print(menu.title)
         print(message)
         print(LINE)
@@ -57,7 +60,7 @@ class TournamentView:
         return (ret, tournament_infos, message)
 
     def prompt_for_tournament_detail(self, menu, tournament, message):
-        # ret = ''
+        self.cls()
         match_index = ''
         print(message)
         print(menu.title)
@@ -158,6 +161,7 @@ class TournamentView:
         return (ret, tournament, match_index, message)
 
     def prompt_for_match_detail(self, menu, tournament, match_index, message):
+        self.cls()
         print(menu.title)
         print("N°   Joueur    Total     Score")
         print(LINE)
@@ -197,6 +201,7 @@ class TournamentView:
         return (ret, scores, message)
 
     def prompt_for_add_player(self, menu, tournament, players, message):
+        self.cls()
         print(menu.title)
         for player in players:
             index = players.index(player)
@@ -230,8 +235,6 @@ class TournamentView:
                 if (len(tournament.players) % 2) != 0:
                     ret = "Mes"
                     message = "Il doit y avoir un nombre de joueurs paire"
-                # else:
-                #     ret = menu.responses[entry]
             else:
                 player = ""
                 ret = menu.responses[entry]

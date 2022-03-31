@@ -1,18 +1,20 @@
-# from typing import List
-
 from views.menu import Menus
-from .player import get_all_players, get_players
-from .tournament import get_all_tournaments, get_tournament
-from .report import get_reports
+from .player import PlayerController as pc
+from .tournament import TournamentController as tc
+from .report import ReportController as rc
 
 
 class Controller:
 
-    def __init__(self, view):
+    def __init__(self, view, db):
         self.view = view
+        self.db = db
+        self.tc = tc
+        self.pc = pc
+        self.rc = rc
         self.menu = Menus()
-        self.tournaments = get_all_tournaments()
-        self.players = get_all_players()
+        self.tournaments = tc.get_all_tournaments(self)
+        self.players = pc.get_all_players(self)
         self.running = True
 
     def run(self):
@@ -24,18 +26,17 @@ class Controller:
             elif res[0] == "Bkup":
                 for player in self.players:
                     player.update()
-                    # self.db.save_player(player)
                 for tournament in self.tournaments:
                     tournament.update()
-                    # self.db.update_tournament(tournament)
             elif res[0] == "1":
                 message = ''
-                get_tournament(self, self.tournaments, message)
+                self.tc.get_tournament(self, self.tournaments, message)
             elif res[0] == "2":
                 message = ''
-                get_players(self, self.players, message)
+                self.pc.get_players(self, self.players, message)
             elif res[0] == "3":
                 message = ''
-                get_reports(self, self.players, self.tournaments, message)
+                self.rc.get_reports(self, self.players,
+                                    self.tournaments, message)
             elif res[0] == "Mes":
                 message = res[1]

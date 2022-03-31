@@ -68,9 +68,13 @@ class PlayerController():
             message = ''
             self.pc.get_players(self, self.players, message)
         elif res[0] == "Mod":
-            player.ranking = int(res[1])
-            player.update
-            player.save
+            try:
+                player.ranking = int(res[1])
+                player.update
+                player.save
+            except Exception as e:
+                message = e
+                self.pc.modify_player(self, player, message)
         elif res[0] == "Del":
             self.players.remove(player)
             player.delete

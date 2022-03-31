@@ -19,6 +19,7 @@ class PlayerView:
             print(choice)
         print(LINE)
         entry = input("Entrez votre choix: ")
+        '''Create index list'''
         lst = [format(x, 'd') for x in range(len(players))]
         if entry in lst:
             player = players[int(entry)]
@@ -86,7 +87,10 @@ class PlayerView:
         if entry in menu.responses:
             ret = menu.responses[entry]
             message = ''
-            if isinstance(val, int):
+            if not val.isdigit() or int(val) <= 0:
+                ret = "Mes"
+                message = "Le classement doit être un entier supérieur à 0."
+            else:
                 ret = "Mod"
                 val = int(val)
         else:

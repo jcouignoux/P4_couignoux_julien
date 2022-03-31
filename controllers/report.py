@@ -37,6 +37,8 @@ def players_report(self, players, message):
         sort = True
         self.view.prompt_for_players_report(
             self.menu.players_report_menu(), players_sorted, sort, message)
+        message = ''
+        get_reports(self, players, self.tournaments, message)
     elif res[0] == "2":
         message = 'Tri par ordre de classement'
         players_sorted = sorted(
@@ -44,6 +46,8 @@ def players_report(self, players, message):
         sort = True
         self.view.prompt_for_players_report(
             self.menu.players_report_menu(), players_sorted, sort, message)
+        message = ''
+        get_reports(self, players, self.tournaments, '')
     elif res[0] == "Ret":
         message = ''
         sort = False
@@ -75,6 +79,8 @@ def tournament_players_report(self, tournaments, message):
             sort = True
             self.view.prompt_for_tournament_players_report(
                 self.menu.players_report_menu(), tournaments, tournament, players_sorted, sort, message)
+            message = ''
+            get_reports(self, players, self.tournaments, message)
         elif res2[0] == "2":
             message = 'Tri par ordre de classement'
             matchs_list = tournament.rounds[-1].matchs
@@ -87,6 +93,8 @@ def tournament_players_report(self, tournaments, message):
             sort = True
             self.view.prompt_for_tournament_players_report(
                 self.menu.players_report_menu(), tournaments, tournament, players_sorted, sort, message)
+            message = ''
+            get_reports(self, players, self.tournaments, message)
         elif res2[0] == "Mes":
             message = res[3]
             tournament_players_report(self, tournaments, message)
@@ -102,6 +110,8 @@ def tournament_players_report(self, tournaments, message):
 def tournaments_report(self, tournaments):
     self.view.prompt_for_tournaments_report(
         self.menu.tournaments_report_menu(), tournaments)
+    message = ''
+    get_reports(self, self.players, self.tournaments, message)
 
 
 def tournament_rounds_report(self, tournaments, message):
@@ -112,6 +122,8 @@ def tournament_rounds_report(self, tournaments, message):
         tournament = res[1]
         res = self.view.prompt_for_tournament_rounds_report(
             self.menu.tournament_rounds_menu(), tournaments, tournament, message)
+        message = ''
+        get_reports(self, self.players, self.tournaments, message)
     elif res[0] == "Mes":
         message = res[2]
         tournament_rounds_report(self, tournaments, message)
@@ -125,6 +137,8 @@ def tournament_matchs_report(self, tournaments, message):
         tournament = res[1]
         res = self.view.prompt_for_tournament_matchs_report(
             self.menu.tournament_matchs_menu(), tournaments, tournament, message)
+        message = ''
+        get_reports(self, self.players, self.tournaments, message)
     elif res[0] == "Mes":
         message = res[2]
         tournament_matchs_report(self, tournaments, message)

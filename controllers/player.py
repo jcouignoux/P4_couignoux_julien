@@ -47,7 +47,7 @@ class PlayerController():
                 # player = self.pm(res[1][0], res[1][1], res[1]
                 #                  [2], res[1][3], res[1][4])
                 self.players.append(self.player)
-                # self.player.save()
+                self.player.save()
             except Exception as e:
                 message = e
                 self.pc.create_player(self, message)

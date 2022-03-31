@@ -1,25 +1,26 @@
 from tinydb import TinyDB, where
 
-db = TinyDB('datas/db.json')
-
-players_table = db.table('_players')
-tournaments_table = db.table('_tournaments')
-
 
 class DataBase:
+    db = TinyDB('datas/db.json')
+    players_table = db.table('_players')
+    tournaments_table = db.table('_tournaments')
 
-    def __init__(self):
-        self.players_table = db.table('_players')
-        self.tournaments_table = db.table('_tournaments')
+    # def __init__(self):
+    #     self.players_table = db.table('_players')
+    #     self.tournaments_table = db.table('_tournaments')
 
     def all_players(self):
         serialized_players = self.players_table.all()
 
         return serialized_players
 
-    def save_player(self, player):
+    @classmethod
+    def save_player(cls, player):
         # pass
-        self.players_table.insert(self.serialize_player(player))
+        print(cls.serialize_player(cls, player))
+        input('')
+        cls.players_table.insert(cls.serialize_player(cls, player))
 
     def delete_player(self, player):
         doc = self.players_table.all()
@@ -30,18 +31,20 @@ class DataBase:
                 self.players_table.remove(doc_ids=[d.doc_id])
         input('')
 
-    def update_player(self, player):
-        self.players_table.update({'ranking': player.ranking},
-                                  where('last_name') == player.last_name)
+    @classmethod
+    def update_player(cls, player):
+        cls.players_table.update({'ranking': player.ranking},
+                                 where('last_name') == player.last_name)
 
     def all_tournaments(self):
         serialized_tournaments = self.tournaments_table.all()
 
         return serialized_tournaments
 
-    def save_tournament(self, tournament):
+    @classmethod
+    def save_tournament(cls, tournament):
         # pass
-        self.tournaments_table.insert(self.serialize_tournament(tournament))
+        cls.tournaments_table.insert(cls.serialize_tournament(cls, tournament))
 
     def delete_tournament(self, tournament):
         doc = self.tournament_table.all()
@@ -74,16 +77,17 @@ class DataBase:
                                       where('name') == tournament.name)
         input('')
 
-    def update_tournament(self, tournament):
-        serialized_tournament = self.serialize_tournament(tournament)
-        doc = self.tournaments_table.all()
+    @classmethod
+    def update_tournament(cls, tournament):
+        serialized_tournament = cls.serialize_tournament(cls, tournament)
+        doc = cls.tournaments_table.all()
         for d in doc:
             if d['name'] == tournament.name:
-                self.tournaments_table.update(
+                cls.tournaments_table.update(
                     serialized_tournament, doc_ids=[d.doc_id])
         return 1
 
-    def serialize_player(player):
+    def serialize_player(self, player):
         serialized_player = {
             'last_name': player.last_name,
             'for_name': player.for_name,
@@ -96,11 +100,11 @@ class DataBase:
     def serialize_match(self, match):
         serialized_matchs = list()
         serialized_match = [
-            self.serialize_player(match.player1[0]),
+            self.serialize_player(self, match.player1[0]),
             match.player1[1],
             match.player1[2]
         ], [
-            self.serialize_player(match.player2[0]),
+            self.serialize_player(self, match.player2[0]),
             match.player2[1],
             match.player2[2]
         ]
@@ -110,7 +114,7 @@ class DataBase:
     def serialize_round(self, round):
         matchs = []
         for match in round.matchs:
-            matchs.append(self.serialize_match(match))
+            matchs.append(self.serialize_match(self, match))
         serialized_round = {
             'number': round.number,
             'start_date': round.start_date,
@@ -129,10 +133,10 @@ class DataBase:
     def serialize_tournament(self, tournament):
         rounds = []
         for round in tournament.rounds:
-            rounds.append(self.serialize_round(round))
+            rounds.append(self.serialize_round(self, round))
         players = []
         for player in tournament.players:
-            players.append(self.serialize_player(player))
+            players.append(self.serialize_player(self, player))
         result = []
         for res in tournament.result:
             result.append(self.serialize_result(res))

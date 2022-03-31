@@ -174,5 +174,6 @@ class ReportView:
             for round in tournament.rounds:
                 for match in round.matchs:
                     print('{0:<25} {1:<5} {2:<5} {3:5} {4:<25} {5:<5} {6:<5}'.format(
-                        str(match.player1[0]), match.player1[1], match.player1[2], "vs", str(match.player2[0]), match.player1[1], match.player1[2]))
+                        str(match.player1[0]), match.player1[1], match.player1[2], "vs", str(match.player2[0]), match.player2[1], match.player2[2]))
+                print(LINE * 2)
             input("Appuyer sur une touche pour continuer...")

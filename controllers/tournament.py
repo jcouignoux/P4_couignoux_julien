@@ -8,6 +8,7 @@ from models.player import Player
 class TournamentController:
 
     def get_all_tournaments(self):
+        '''Get srialized all tournaments'''
         tournaments = []
         for tournament_dict in self.db.all_tournaments():
             tournament = Tournament(
@@ -57,6 +58,7 @@ class TournamentController:
         return tournaments
 
     def get_tournament(self, tournaments, message):
+        '''View tournaments list'''
         res = self.view.tv.prompt_for_tournament(
             self.view, self.menu.tournament_menu(), tournaments, message)
         if res[0] == "New":
@@ -75,6 +77,7 @@ class TournamentController:
             self.tc.get_tournament(self, tournaments, message)
 
     def get_tournament_detail(self, tournament, message):
+        '''View tournament details to action'''
         res = self.view.tv.prompt_for_tournament_detail(
             self.view, self.menu.tournament_detail_menu(), tournament, message)
         if res[0] == "Ret":
@@ -105,6 +108,7 @@ class TournamentController:
             self.tc.get_tournament_detail(self, tournament, message)
 
     def get_new_tournament(self, adding_player, message):
+        '''New tournament view'''
         if adding_player:
             date = datetime.now().strftime("%d/%m/%Y")
             res = self.view.tv.prompt_for_new_tournament(
@@ -128,11 +132,11 @@ class TournamentController:
         else:
             self.tc.add_round(self.tournament)
             self.tournaments.append(self.tournament)
-            # self.tournament = tournament
-            self.tournament.save
+            self.tournament.save()
             self.tc.get_tournament_detail(self, self.tournament, message)
 
     def add_players(self, tournament, message):
+        '''Select or Create player and Add to tournament'''
         res = self.view.tv.prompt_for_add_player(
             self.view, self.menu.add_player_menu(), tournament, self.players, message)
         if res[0] == "Stop":
@@ -145,12 +149,12 @@ class TournamentController:
         elif res[0] == "Create":
             player = self.pc.create_player(self, message)
             tournament.add_player(player)
-            # tournament = self.tournament
         elif res[0] == "Mes":
             message = res[2]
             self.tc.add_players(self, tournament, message)
 
     def add_round(tournament):
+        '''Add new round and create matchs'''
         start_date = datetime.now().strftime("%d/%m/%Y-%H:%M")
         round_number = len(tournament.rounds) + 1
         round = Round(round_number, start_date, '')
@@ -187,7 +191,6 @@ class TournamentController:
                                players_list_sorted[i1][1], 0]
                     # Test if first ans second players in ref list
                     if players_list_sorted[i1][0] in player_list_pop:
-                        print(players_list_sorted[i2][0])
                         if players_list_sorted[i2][0] in player_list_pop:
                             # Check if match already played
                             couple = (
@@ -223,6 +226,7 @@ class TournamentController:
         tournament.add_round(round)
 
     def get_match_detail(self, tournament, match_index, message):
+        '''View to enter scores'''
         res = self.view.tv.prompt_for_match_detail(
             self.view, self.menu.match_detail_menu(), tournament, match_index, message)
         if res[0] == "Mod":
@@ -239,6 +243,7 @@ class TournamentController:
             self.tc.get_match_detail(self, tournament, match_index, message)
 
     def close_tournament(tournament):
+        '''Calculate ultimate rank and put status to False'''
         if tournament.status:
             date = datetime.now().strftime("%d/%m/%Y-%H:%M")
             round = tournament.rounds[-1]

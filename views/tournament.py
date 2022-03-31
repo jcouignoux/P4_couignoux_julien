@@ -1,4 +1,3 @@
-import os
 LINE = "-----------------------------------------------"
 TITLE = "##############################################"
 
@@ -215,6 +214,7 @@ class TournamentView:
         print(message)
         print(LINE)
         entry = input("Entrez votre choix: ")
+        '''create player id list to check'''
         lst = [format(x, 'd') for x in range(len(players))]
         print(LINE)
         if entry in lst:
@@ -229,10 +229,12 @@ class TournamentView:
             if entry == "S":
                 player = ''
                 ret = menu.responses[entry]
+                '''Players number must be upper rounds number in order to not have 2 times the same match'''
                 if len(tournament.players) <= int(tournament.round_number):
                     ret = "Mes"
                     message = "Il doit y avoir au moins un joueur de plus que de tour"
                 if (len(tournament.players) % 2) != 0:
+                    '''Player number must be paire in order to have 2 players per match'''
                     ret = "Mes"
                     message = "Il doit y avoir un nombre de joueurs paire"
             else:

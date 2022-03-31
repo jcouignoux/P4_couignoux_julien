@@ -6,20 +6,15 @@ class DataBase:
     players_table = db.table('_players')
     tournaments_table = db.table('_tournaments')
 
-    # def __init__(self):
-    #     self.players_table = db.table('_players')
-    #     self.tournaments_table = db.table('_tournaments')
-
     def all_players(self):
+        '''Get players from db'''
         serialized_players = self.players_table.all()
 
         return serialized_players
 
     @classmethod
     def save_player(cls, player):
-        # pass
-        print(cls.serialize_player(cls, player))
-        input('')
+        '''Insert player to db'''
         cls.players_table.insert(cls.serialize_player(cls, player))
 
     def delete_player(self, player):
@@ -37,13 +32,13 @@ class DataBase:
                                  where('last_name') == player.last_name)
 
     def all_tournaments(self):
+        '''Get tournaments from db'''
         serialized_tournaments = self.tournaments_table.all()
 
         return serialized_tournaments
 
     @classmethod
     def save_tournament(cls, tournament):
-        # pass
         cls.tournaments_table.insert(cls.serialize_tournament(cls, tournament))
 
     def delete_tournament(self, tournament):
@@ -53,7 +48,6 @@ class DataBase:
             if d['name'] == tournament.name:
                 print(tournament.name)
                 self.tournaments_table.remove(doc_ids=[d.doc_id])
-        input('')
 
     def update_round(self, tournament):
         round = tournament.rounds[-1]
@@ -64,7 +58,6 @@ class DataBase:
         self.tournaments_table.update({'matchs': serialized_matchs},
                                       where('rounds') ==
                                       where('name') == tournament.name)
-        input('')
 
     def update_match(self, tournament, r):
         matchs = tournament.rounds[-1].matchs
@@ -75,7 +68,6 @@ class DataBase:
         self.tournaments_table.update({'matchs': serialized_matchs},
                                       where('rounds') ==
                                       where('name') == tournament.name)
-        input('')
 
     @classmethod
     def update_tournament(cls, tournament):
@@ -125,7 +117,7 @@ class DataBase:
 
     def serialize_result(self, result):
         serialized_result = [
-            self.serialize_player(result[0]),
+            self.serialize_player(self, result[0]),
             result[1]
         ]
         return serialized_result
@@ -139,7 +131,7 @@ class DataBase:
             players.append(self.serialize_player(self, player))
         result = []
         for res in tournament.result:
-            result.append(self.serialize_result(res))
+            result.append(self.serialize_result(self, res))
         serialized_tournament = {
             'name': tournament.name,
             'description': tournament.description,

@@ -2,6 +2,7 @@
 class ReportController:
 
     def get_reports(self, players, tournaments, message):
+        '''View reports list'''
         res = self.view.rv.prompt_for_reports(
             self.view, self.menu.reports_menu(), message)
         if res[0] == "1":

@@ -20,6 +20,7 @@ class Controller:
     def run(self):
         message = ''
         while self.running:
+            '''Main Menu'''
             res = self.view.prompt_for_main(self.menu.main_menu(), message)
             if res[0] == "Quit":
                 self.running = False
@@ -29,12 +30,15 @@ class Controller:
                 for tournament in self.tournaments:
                     tournament.update()
             elif res[0] == "1":
+                '''Tournaments Menu'''
                 message = ''
                 self.tc.get_tournament(self, self.tournaments, message)
             elif res[0] == "2":
+                '''Players Menu'''
                 message = ''
                 self.pc.get_players(self, self.players, message)
             elif res[0] == "3":
+                '''Report Menu'''
                 message = ''
                 self.rc.get_reports(self, self.players,
                                     self.tournaments, message)

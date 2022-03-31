@@ -3,6 +3,7 @@ TITLE = "##############################################"
 
 
 class Menus:
+    '''All Menus for views'''
 
     def main_menu(self):
         self.title = TITLE + "\n ACCUEIL \n" + TITLE

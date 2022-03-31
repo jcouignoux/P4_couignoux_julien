@@ -4,6 +4,7 @@ from models.player import Player
 class PlayerController():
 
     def get_all_players(self):
+        '''Get serialized all players'''
         players = []
         for serialized_player in self.db.all_players():
             player = Player(
@@ -17,6 +18,7 @@ class PlayerController():
         return players
 
     def get_players(self, players, message):
+        '''View players list'''
         res = self.view.pv.prompt_for_player(
             self.view, self.menu.player_menu(), players, message)
         if res[0] == "New":
@@ -35,6 +37,7 @@ class PlayerController():
             self.pc.get_players(self, players, message)
 
     def create_player(self, message):
+        '''Create player and add to players list'''
         res = self.view.pv.prompt_for_create_player(
             self.view, self.menu.create_player_menu(), message)
         if res[0] == "Abort":
@@ -44,8 +47,6 @@ class PlayerController():
             try:
                 self.player = Player(res[1][0], res[1][1], res[1]
                                      [2], res[1][3], res[1][4])
-                # player = self.pm(res[1][0], res[1][1], res[1]
-                #                  [2], res[1][3], res[1][4])
                 self.players.append(self.player)
                 self.player.save()
             except Exception as e:
@@ -54,13 +55,13 @@ class PlayerController():
         elif res[0] == "Add":
             self.player = Player(res[1][0], res[1][1], res[1]
                                  [2], res[1][3], res[1][4])
-            # self.tournament.add_player(player)
             return self.player
         elif res[0] == "Mes":
             message = res[2]
             self.pc.create_player(self, message)
 
     def modify_player(self, player, message):
+        '''Modify rank player'''
         res = self.view.pv.prompt_for_modify_player(
             self.view, self.menu.modify_player_menu(), player, message)
         if res[0] == "Abort":

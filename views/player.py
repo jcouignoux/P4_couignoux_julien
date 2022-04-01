@@ -58,16 +58,18 @@ class PlayerView:
             error = "Le classement doit être un entier supérieur à 0."
         elif not re.findall(regex, birthday):
             error = "Le format de l'anniversaire doit être JJ/MM/YYYY."
-        if entry in menu.responses and error == '':
-            ret = menu.responses[entry]
-            player = (last_name, for_name, birthday, gender, ranking)
+        if entry in menu.responses:
+            if error != '':
+                ret = menu.responses[entry]
+                player = (last_name, for_name, birthday, gender, ranking)
+            else:
+                player = ''
+                ret = "Mes"
+                message = error
         else:
             player = ''
             ret = "Mes"
-            if error == '':
-                message = "Entrée incorrecte."
-            else:
-                message = error
+            message = "Entrée incorrecte."
 
         return (ret, player, message)
 

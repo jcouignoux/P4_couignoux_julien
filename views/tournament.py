@@ -40,21 +40,30 @@ class TournamentView:
         description = input("Description: ")
         location = input("Localisation: ")
         round_number = input("Nombre de tours (default 4): ") or 4
-        time_controler = input("Gestion du temps: ")
+        time_controler = input("Gestion du temps (Bullet, Blitz ou Fast): ")
         print(LINE)
         for choice in menu.choices:
             print(choice)
         print(LINE)
         entry = input("Entrez votre choix: ")
+        '''Check input'''
+        error = ''
+        if time_controler not in ('Bullet', 'Blitz', 'Fast'):
+            error = "Le contrôle du temps doit être Bullet, Blitz ou Fast"
         if entry in menu.responses:
-            message = ''
-            ret = menu.responses[entry]
-            tournament_infos = (name, description, location,
-                                round_number, time_controler)
+            if error != '':
+                message = ''
+                ret = menu.responses[entry]
+                tournament_infos = (name, description, location,
+                                    round_number, time_controler)
+            else:
+                tournament_infos = ''
+                message = "Entrée incorrecte."
+                ret = "Mes"
         else:
             tournament_infos = ''
             ret = "Mes"
-            message = "Entrée incorrecte."
+            message = error
 
         return (ret, tournament_infos, message)
 

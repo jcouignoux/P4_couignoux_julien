@@ -17,14 +17,14 @@ class DataBase:
         '''Insert player to db'''
         cls.players_table.insert(cls.serialize_player(cls, player))
 
-    def delete_player(self, player):
-        doc = self.players_table.all()
+    @classmethod
+    def delete_player(cls, player):
+        doc = cls.players_table.all()
         for d in doc:
             print(d.doc_id)
             if d['last_name'] == player.last_name:
                 print(player.last_name)
-                self.players_table.remove(doc_ids=[d.doc_id])
-        input('')
+                cls.players_table.remove(doc_ids=[d.doc_id])
 
     @classmethod
     def update_player(cls, player):

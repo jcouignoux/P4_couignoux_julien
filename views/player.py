@@ -80,21 +80,26 @@ class PlayerView:
         for select in menu.select:
             print(select + ": " + str(player.ranking))
         print(LINE)
-        print(message)
-        print(LINE)
-        val = input("Entrez la nouvelle valeur: ")
         for choice in menu.choices:
             print(choice)
-        entry = input("Valider ou Abandonner: ")
+        print(LINE)
+        print(message)
+        print(LINE)
+        entry = input("Entrez votre choix: ")
         if entry in menu.responses:
             ret = menu.responses[entry]
-            message = ''
-            if not val.isdigit() or int(val) <= 0:
-                ret = "Mes"
-                message = "Le classement doit être un entier supérieur à 0."
+            if ret == "Mod":
+                val = input("Entrez la nouvelle valeur: ")
+                if not val.isdigit() or int(val) <= 0:
+                    ret = "Mes"
+                    message = "Le classement doit être un entier supérieur à 0."
+                else:
+                    message = ''
+                    ret = "Mod"
+                    val = int(val)
             else:
-                ret = "Mod"
-                val = int(val)
+                val = ''
+                message = ''
         else:
             ret = "Mes"
             message = "Entrée incorrecte."

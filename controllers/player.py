@@ -81,7 +81,3 @@ class PlayerController():
         elif res[0] == "Mes":
             message = res[2]
             self.pc.modify_player(self, player, message)
-
-    # def delete_player(self, player, message):
-    #     self.players.pop(player)
-    #     player.delete

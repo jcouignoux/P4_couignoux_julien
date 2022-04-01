@@ -41,13 +41,14 @@ class DataBase:
     def save_tournament(cls, tournament):
         cls.tournaments_table.insert(cls.serialize_tournament(cls, tournament))
 
-    def delete_tournament(self, tournament):
-        doc = self.tournament_table.all()
+    @classmethod
+    def delete_tournament(cls, tournament):
+        doc = cls.tournaments_table.all()
         for d in doc:
             print(d.doc_id)
             if d['name'] == tournament.name:
                 print(tournament.name)
-                self.tournaments_table.remove(doc_ids=[d.doc_id])
+                cls.tournaments_table.remove(doc_ids=[d.doc_id])
 
     def update_round(self, tournament):
         round = tournament.rounds[-1]

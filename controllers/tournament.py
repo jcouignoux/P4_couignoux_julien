@@ -101,7 +101,8 @@ class TournamentController:
             self.tc.get_tournament_detail(self, tournament, message)
         elif res[0] == "Del":
             message = ''
-            tournament.delete
+            self.tournaments.remove(tournament)
+            tournament.delete()
         elif res[0] == "Close":
             message = 'Tournoi Terminé'
             self.tc.close_tournament(tournament)

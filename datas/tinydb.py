@@ -50,6 +50,15 @@ class DataBase:
                 print(tournament.name)
                 cls.tournaments_table.remove(doc_ids=[d.doc_id])
 
+    @classmethod
+    def update_tournament(cls, tournament):
+        serialized_tournament = cls.serialize_tournament(cls, tournament)
+        doc = cls.tournaments_table.all()
+        for d in doc:
+            if d['name'] == tournament.name:
+                cls.tournaments_table.update(
+                    serialized_tournament, doc_ids=[d.doc_id])
+
     def update_round(self, tournament):
         round = tournament.rounds[-1]
         serialized_matchs = []
@@ -69,16 +78,6 @@ class DataBase:
         self.tournaments_table.update({'matchs': serialized_matchs},
                                       where('rounds') ==
                                       where('name') == tournament.name)
-
-    @classmethod
-    def update_tournament(cls, tournament):
-        serialized_tournament = cls.serialize_tournament(cls, tournament)
-        doc = cls.tournaments_table.all()
-        for d in doc:
-            if d['name'] == tournament.name:
-                cls.tournaments_table.update(
-                    serialized_tournament, doc_ids=[d.doc_id])
-        return 1
 
     def serialize_player(self, player):
         serialized_player = {

@@ -67,14 +67,7 @@ class TournamentView:
 
         return (ret, tournament_infos, message)
 
-    def tournament_informations(tournament):
-        pass
-
-    def prompt_for_tournament_detail(self, menu, tournament, message):
-        self.cls()
-        match_index = ''
-        print(message)
-        print(menu.title)
+    def display_tournament_informations(tournament):
         print("Nom: " + str(tournament.name) + " - " +
               "Description: " + str(tournament.description)
               )
@@ -87,6 +80,8 @@ class TournamentView:
             "Gestion du Temps: " + str(tournament.time_controler)
         )
         print(LINE)
+
+    def display_players_rank(tournament):
         print("Classement des joueurs")
         print(LINE)
         players_list = []
@@ -105,6 +100,27 @@ class TournamentView:
                   ": " + str(player[1])
                   )
         print(LINE)
+
+    def display_round_detail(tournament):
+        for round in tournament.rounds:
+            print("Tour " + str(round.number) + " - " +
+                  "Début: " + str(round.start_date) + " - " +
+                  "Fin: " + str(round.end_date)
+                  )
+            print(LINE)
+            for match in round.matchs:
+                print(str(round.matchs.index(match)) + str(" - ") +
+                      str(match.player1) + " vs " + str(match.player2)
+                      )
+            print(LINE)
+
+    def prompt_for_tournament_detail(self, menu, tournament, message):
+        self.cls()
+        match_index = ''
+        print(message)
+        print(menu.title)
+        self.tv.display_tournament_informations(tournament)
+        self.tv.display_players_rank(tournament)
         if len(tournament.rounds) == 0:
             for choice in menu.choices:
                 print(choice)
@@ -119,43 +135,26 @@ class TournamentView:
         else:
             if len(tournament.rounds) == int(tournament.round_number):
                 menu.choices = [
-                    "C: Clore le tournoi",
-                    "D: Supprimer le tournoi",
-                    "R: Retour"
-                ]
+                    "C: Clore le tournoi", "D: Supprimer le tournoi", "R: Retour"]
                 menu.responses = {"C": "Close", "D": "Del", "R": "Ret"}
             else:
                 menu.choices = [
-                    "Entrez l'id du match à valider",
-                    "V: Valider le tour",
-                    "D: Supprimer le tournoi",
-                    "R: Retour"
-                ]
+                    "Entrez l'id du match à valider", "V: Valider le tour",
+                    "D: Supprimer le tournoi", "R: Retour"]
                 menu.responses = {"V": "Val", "D": "Del", "R": "Ret"}
-        print(LINE)
-        for round in tournament.rounds:
-            print("Tour " + str(round.number) + " - " +
-                  "Début: " + str(round.start_date) + " - " +
-                  "Fin: " + str(round.end_date)
-                  )
-            print(LINE)
-            for match in round.matchs:
-                print(str(round.matchs.index(match)) + str(" - ") +
-                      str(match.player1) + " vs " + str(match.player2)
-                      )
-            print(LINE)
+        round = self.tv.display_round_detail(tournament)
         for choice in menu.choices:
             print(choice)
         print(LINE)
         print(message)
         print(LINE)
         entry = input("Entrez votre choix: ")
-        lst = [format(x, 'd') for x in range(len(round.matchs))]
+        lst = [format(x, 'd') for x in range(len(tournament.rounds[-1].matchs))]
         if entry in menu.responses:
             ret = menu.responses[entry]
         elif entry in lst:
             ret = "Mod"
-            match = round.matchs[int(entry)]
+            match = tournament.rounds[-1].matchs[int(entry)]
             match_index = int(entry)
         else:
             ret = "Mes"

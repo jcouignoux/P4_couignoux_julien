@@ -59,7 +59,7 @@ class PlayerView:
         elif not re.findall(regex, birthday):
             error = "Le format de l'anniversaire doit être JJ/MM/YYYY."
         if entry in menu.responses:
-            if error != '':
+            if error == '':
                 ret = menu.responses[entry]
                 player = (last_name, for_name, birthday, gender, ranking)
             else:

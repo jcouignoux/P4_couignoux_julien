@@ -131,7 +131,7 @@ class TournamentController:
                 message = res[2]
                 self.tc.get_new_tournament(self, adding_player, message)
         else:
-            self.tc.add_round(self.tournament)
+            self.tc.first_round(self.tournament)
             self.tournaments.append(self.tournament)
             self.tournament.save()
             self.tc.get_tournament_detail(self, self.tournament, message)
@@ -154,76 +154,72 @@ class TournamentController:
             message = res[2]
             self.tc.add_players(self, tournament, message)
 
+    def first_round(tournament):
+        start_date = datetime.now().strftime("%d/%m/%Y-%H:%M")
+        round_number = 1
+        round = Round(round_number, start_date, '')
+        players_list_sorted = sorted(
+            tournament.players, key=lambda k: k.ranking)
+        for i in range(len(players_list_sorted) // 2):
+            player1 = players_list_sorted[i], 0, 0
+            player2 = players_list_sorted[i +
+                                          (len(players_list_sorted) // 2)], 0, 0
+            match = Match()
+            match.player1 = player1
+            match.player2 = player2
+            round.add_match(match)
+        tournament.add_round(round)
+
     def add_round(tournament):
-        '''Add new round and create matchs'''
         start_date = datetime.now().strftime("%d/%m/%Y-%H:%M")
         round_number = len(tournament.rounds) + 1
         round = Round(round_number, start_date, '')
-        if len(tournament.rounds) == 0:
-            players_list_sorted = sorted(
-                tournament.players, key=lambda k: k.ranking)
-            for i in range(len(players_list_sorted) // 2):
-                player1 = players_list_sorted[i], 0, 0
-                player2 = players_list_sorted[i +
-                                              (len(players_list_sorted) // 2)], 0, 0
-                match = Match()
-                match.player1 = player1
-                match.player2 = player2
-                round.add_match(match)
-        else:
-            player_list_temp = []
-            for match in tournament.rounds[-1].matchs:
-                player_list_temp.append(
-                    [match.player1[0], match.player1[1] + match.player1[2], 0])
-                player_list_temp.append(
-                    [match.player2[0], match.player2[1] + match.player2[2], 0])
-            players_list_sorted = sorted(
-                player_list_temp, key=lambda k: (-k[1], k[0].ranking))
-            # ref list
-            player_list_pop = list(tournament.players)
-            # first player index
-            i1 = 0
-            # second player index
-            i2 = 1
-            for item in range(len(players_list_sorted) // 2):
-                # Initialize number of matchs
-                for n in range(len(player_list_pop) - 1):
-                    player1 = [players_list_sorted[i1][0],
-                               players_list_sorted[i1][1], 0]
-                    # Test if first ans second players in ref list
-                    if players_list_sorted[i1][0] in player_list_pop:
-                        if players_list_sorted[i2][0] in player_list_pop:
-                            # Check if match already played
-                            couple = (
-                                players_list_sorted[i1][0].last_name,
-                                players_list_sorted[i2][0].last_name
-                            )
-                            if not tournament.is_already_played(couple):
-                                if players_list_sorted[i2][0] in player_list_pop:
-                                    player2 = [players_list_sorted[i2][0],
-                                               players_list_sorted[i2][1], 0]
-                                    # remove player from ref list
-                                    player_list_pop.remove(
-                                        players_list_sorted[i1][0])
-                                    player_list_pop.remove(
-                                        players_list_sorted[i2][0])
-                                    match = Match()
-                                    match.player1 = player1
-                                    match.player2 = player2
-                                    round.add_match(match)
-                                    i1 += 1
-                                    i2 = i1 + 1
-                            else:
-                                print(str(players_list_sorted[i1][0].last_name) + " et " +
-                                      str(players_list_sorted[i2][0].last_name) +
-                                      str(" ont déjà joué ensemble."))
-                                input('')
-                                i2 += 1
+        player_list_temp = []
+        for match in tournament.rounds[-1].matchs:
+            player_list_temp.append(
+                [match.player1[0], match.player1[1] + match.player1[2], 0])
+            player_list_temp.append(
+                [match.player2[0], match.player2[1] + match.player2[2], 0])
+        players_list_sorted = sorted(
+            player_list_temp, key=lambda k: (-k[1], k[0].ranking))
+        player_list_pop = list(tournament.players)
+        i1 = 0
+        i2 = 1
+        for item in range(len(players_list_sorted) // 2):
+            for n in range(len(player_list_pop) - 1):
+                player1 = [players_list_sorted[i1][0],
+                           players_list_sorted[i1][1], 0]
+                if players_list_sorted[i1][0] in player_list_pop:
+                    if players_list_sorted[i2][0] in player_list_pop:
+                        couple = (
+                            players_list_sorted[i1][0].last_name,
+                            players_list_sorted[i2][0].last_name
+                        )
+                        if not tournament.is_already_played(couple):
+                            if players_list_sorted[i2][0] in player_list_pop:
+                                player2 = [players_list_sorted[i2][0],
+                                           players_list_sorted[i2][1], 0]
+                                player_list_pop.remove(
+                                    players_list_sorted[i1][0])
+                                player_list_pop.remove(
+                                    players_list_sorted[i2][0])
+                                match = Match()
+                                match.player1 = player1
+                                match.player2 = player2
+                                round.add_match(match)
+                                i1 += 1
+                                i2 = i1 + 1
                         else:
+                            print(str(players_list_sorted[i1][0].last_name) + " et " +
+                                  str(players_list_sorted[i2][0].last_name) +
+                                  str(" ont déjà joué ensemble."))
+                            input('')
                             i2 += 1
                     else:
-                        i1 += 1
-                        i2 = i1 + 1
+                        i2 += 1
+                else:
+                    i1 += 1
+                    i2 = i1 + 1
         tournament.add_round(round)
 
     def get_match_detail(self, tournament, match_index, message):

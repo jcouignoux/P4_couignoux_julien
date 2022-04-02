@@ -51,19 +51,19 @@ class TournamentView:
         if time_controler not in ('Bullet', 'Blitz', 'Fast'):
             error = "Le contrôle du temps doit être Bullet, Blitz ou Fast"
         if entry in menu.responses:
-            if error != '':
+            if error == '':
                 message = ''
                 ret = menu.responses[entry]
                 tournament_infos = (name, description, location,
                                     round_number, time_controler)
             else:
                 tournament_infos = ''
-                message = "Entrée incorrecte."
+                message = error
                 ret = "Mes"
         else:
             tournament_infos = ''
             ret = "Mes"
-            message = error
+            message = "Entrée incorrecte."
 
         return (ret, tournament_infos, message)
 

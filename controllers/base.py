@@ -16,6 +16,7 @@ class Controller:
         self.tournaments = tc.get_all_tournaments(self)
         self.players = pc.get_all_players(self)
         self.running = True
+        self.adding_player = False
 
     def run(self):
         message = ''

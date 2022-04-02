@@ -63,8 +63,8 @@ class TournamentController:
             self.view, self.menu.tournament_menu(), tournaments, message)
         if res[0] == "New":
             message = ''
-            adding_player = True
-            self.tc.get_new_tournament(self, adding_player, message)
+            self.adding_player = True
+            self.tc.get_new_tournament(self, message)
         elif res[0] == "Ret":
             message = ''
             self.run()
@@ -108,9 +108,9 @@ class TournamentController:
             self.tc.close_tournament(tournament)
             self.tc.get_tournament_detail(self, tournament, message)
 
-    def get_new_tournament(self, adding_player, message):
+    def get_new_tournament(self, message):
         '''New tournament view'''
-        if adding_player:
+        if self.adding_player:
             date = datetime.now().strftime("%d/%m/%Y")
             res = self.view.tv.prompt_for_new_tournament(
                 self.view, self.menu.create_tournament_menu(), message)
@@ -124,12 +124,12 @@ class TournamentController:
                     message = ''
                 except Exception as e:
                     message = e
-                    self.tc.get_new_tournament(self, adding_player, message)
-                while adding_player:
+                    self.tc.get_new_tournament(self, message)
+                while self.adding_player:
                     self.tc.add_players(self, self.tournament, message)
             if res[0] == "Mes":
                 message = res[2]
-                self.tc.get_new_tournament(self, adding_player, message)
+                self.tc.get_new_tournament(self, message)
         else:
             self.tc.first_round(self.tournament)
             self.tournaments.append(self.tournament)
@@ -141,8 +141,8 @@ class TournamentController:
         res = self.view.tv.prompt_for_add_player(
             self.view, self.menu.add_player_menu(), tournament, self.players, message)
         if res[0] == "Stop":
-            adding_player = False
-            self.tc.get_new_tournament(self, adding_player, message)
+            self.adding_player = False
+            self.tc.get_new_tournament(self, message)
         elif res[0] == "Add":
             message = ''
             player = res[1]

@@ -1,13 +1,9 @@
 from datas.tinydb import DataBase as db
 
-GENDER = ("F", "M")
-# BDAY = NewType('BDAY', datetime)
-# DatetimeLike = TypeVar("DatetimeLike", BDAY)
-
 
 class Player:
 
-    def __init__(self, last_name, for_name, birthday, gender, ranking):
+    def __init__(self, last_name, for_name, birthday, gender, ranking: int):
         self.last_name = str(last_name)
         self.for_name = str(for_name)
         self.birthday = birthday

@@ -94,8 +94,9 @@ class ReportView:
                     "Nom", "Prénom", "Naissance", "Sexe", "Classement", "Score"))
                 print(LINE)
                 for player in players:
-                    print('{0:<10} {1:<10} {2:<10} {3:<5} {4:<10} {5:<5}'.format(player[0].last_name, player[0].for_name,
-                          player[0].birthday, player[0].gender, player[0].ranking, player[1]))
+                    print('{0:<10} {1:<10} {2:<10} {3:<5} {4:<10} {5:<5}'.format(
+                        player[0].last_name, player[0].for_name, player[0].birthday,
+                        player[0].gender, player[0].ranking, player[1]))
                 ret = ''
                 print(LINE)
                 input("Appuyer sur une touche pour continuer...")
@@ -107,8 +108,9 @@ class ReportView:
             print('{0:<10} {1:<20} {2:<20} {3:<15} {4:<8} {5:<8} {6:<50}'.format(
                 "Nom", "Description", "Date", "Localisation", "Nb Tour", "Temps", "Joueurs"))
             print(LINE * 4)
-            print('{0:<10} {1:<20} {2:<20} {3:<15} {4:<8} {5:<8}'.format(tournament.name, tournament.description, tournament.date,
-                  tournament.location, tournament.round_number, tournament.time_controler), tournament.players)
+            print('{0:<10} {1:<20} {2:<20} {3:<15} {4:<8} {5:<8}'.format(
+                tournament.name, tournament.description, tournament.date, tournament.location,
+                tournament.round_number, tournament.time_controler), tournament.players)
             print(LINE * 4)
         input("Appuyer sur une touche pour continuer...")
 
@@ -174,6 +176,7 @@ class ReportView:
             for round in tournament.rounds:
                 for match in round.matchs:
                     print('{0:<25} {1:<5} {2:<5} {3:5} {4:<25} {5:<5} {6:<5}'.format(
-                        str(match.player1[0]), match.player1[1], match.player1[2], "vs", str(match.player2[0]), match.player2[1], match.player2[2]))
+                        str(match.player1[0]), match.player1[1], match.player1[2], "vs",
+                        str(match.player2[0]), match.player2[1], match.player2[2]))
                 print(LINE * 2)
             input("Appuyer sur une touche pour continuer...")

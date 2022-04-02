@@ -45,16 +45,18 @@ class PlayerController():
             self.pc.get_players(self, self.players, message)
         elif res[0] == "Create":
             try:
-                self.player = Player(res[1][0], res[1][1], res[1]
-                                     [2], res[1][3], res[1][4])
+                self.player = Player(
+                    res[1][0], res[1][1], res[1][2], res[1][3], res[1][4]
+                )
                 self.players.append(self.player)
                 self.player.save()
             except Exception as e:
                 message = e
                 self.pc.create_player(self, message)
         elif res[0] == "Add":
-            self.player = Player(res[1][0], res[1][1], res[1]
-                                 [2], res[1][3], res[1][4])
+            self.player = Player(res[1][0], res[1][1],
+                                 res[1][2], res[1][3], res[1][4]
+                                 )
             return self.player
         elif res[0] == "Mes":
             message = res[2]

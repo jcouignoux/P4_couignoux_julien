@@ -59,25 +59,25 @@ class DataBase:
                 cls.tournaments_table.update(
                     serialized_tournament, doc_ids=[d.doc_id])
 
-    def update_round(self, tournament):
-        round = tournament.rounds[-1]
-        serialized_matchs = []
-        for match in round:
-            serialized_matchs.append(self.serialize_match(match))
-        print(serialized_matchs)
-        self.tournaments_table.update({'matchs': serialized_matchs},
-                                      where('rounds') ==
-                                      where('name') == tournament.name)
+    # def update_round(self, tournament):
+    #     round = tournament.rounds[-1]
+    #     serialized_matchs = []
+    #     for match in round:
+    #         serialized_matchs.append(self.serialize_match(match))
+    #     print(serialized_matchs)
+    #     self.tournaments_table.update({'matchs': serialized_matchs},
+    #                                   where('rounds') ==
+    #                                   where('name') == tournament.name)
 
-    def update_match(self, tournament, r):
-        matchs = tournament.rounds[-1].matchs
-        serialized_matchs = []
-        for match in matchs:
-            serialized_matchs.append(self.serialize_match(match))
-        print(serialized_matchs)
-        self.tournaments_table.update({'matchs': serialized_matchs},
-                                      where('rounds') ==
-                                      where('name') == tournament.name)
+    # def update_match(self, tournament, r):
+    #     matchs = tournament.rounds[-1].matchs
+    #     serialized_matchs = []
+    #     for match in matchs:
+    #         serialized_matchs.append(self.serialize_match(match))
+    #     print(serialized_matchs)
+    #     self.tournaments_table.update({'matchs': serialized_matchs},
+    #                                   where('rounds') ==
+    #                                   where('name') == tournament.name)
 
     def serialize_player(self, player):
         serialized_player = {
@@ -129,6 +129,7 @@ class DataBase:
         players = []
         for player in tournament.players:
             players.append(self.serialize_player(self, player))
+            # players.append(player.__dict__)
         result = []
         for res in tournament.result:
             result.append(self.serialize_result(self, res))
@@ -138,10 +139,18 @@ class DataBase:
             'date': tournament.date,
             'location': tournament.location,
             'round_number': tournament.round_number,
-            'rounds': rounds,
+            'rounds': rounds,  # serialize(tournament.rounds)
             'players': players,
             'time_controler': tournament.time_controler,
             'status': tournament.status,
             'result': result
         }
         return serialized_tournament
+
+    # @staticmethod
+    # def serialize(object_list):
+    #     serialized_list = []
+    #     for item in object_list:
+    #         serialized_list.append(item.__dict__)
+
+    #     return serialized_list

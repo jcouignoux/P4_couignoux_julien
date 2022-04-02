@@ -67,24 +67,23 @@ class TournamentView:
 
         return (ret, tournament_infos, message)
 
+    def tournament_informations(tournament):
+        pass
+
     def prompt_for_tournament_detail(self, menu, tournament, message):
         self.cls()
         match_index = ''
         print(message)
         print(menu.title)
+        print("Nom: " + str(tournament.name) + " - " +
+              "Description: " + str(tournament.description)
+              )
         print(
-            "Nom: " + str(tournament.name) +
-            " - " +
-            "Description: " + str(tournament.description)
-        )
-        print(
-            "Localisation: " + str(tournament.location) +
-            " - " +
+            "Localisation: " + str(tournament.location) + " - " +
             "Date: " + str(tournament.date)
         )
         print(
-            "Nombre de tours: " + str(tournament.round_number) +
-            " - " +
+            "Nombre de tours: " + str(tournament.round_number) + " - " +
             "Gestion du Temps: " + str(tournament.time_controler)
         )
         print(LINE)
@@ -135,19 +134,15 @@ class TournamentView:
                 menu.responses = {"V": "Val", "D": "Del", "R": "Ret"}
         print(LINE)
         for round in tournament.rounds:
-            print(
-                "Tour " + str(round.number) +
-                " - " +
-                "Début: " + str(round.start_date) +
-                " - " +
-                "Fin: " + str(round.end_date)
-            )
+            print("Tour " + str(round.number) + " - " +
+                  "Début: " + str(round.start_date) + " - " +
+                  "Fin: " + str(round.end_date)
+                  )
             print(LINE)
             for match in round.matchs:
-                print(str(round.matchs.index(match)) +
-                      str(" - ") +
-                      str(match.player1) + " vs " +
-                      str(match.player2))
+                print(str(round.matchs.index(match)) + str(" - ") +
+                      str(match.player1) + " vs " + str(match.player2)
+                      )
             print(LINE)
         for choice in menu.choices:
             print(choice)

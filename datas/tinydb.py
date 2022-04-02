@@ -80,13 +80,14 @@ class DataBase:
     #                                   where('name') == tournament.name)
 
     def serialize_player(self, player):
-        serialized_player = {
-            'last_name': player.last_name,
-            'for_name': player.for_name,
-            'birthday': player.birthday,
-            'gender': player.gender,
-            'ranking': player.ranking
-        }
+        serialized_player = player.__dict__
+        # serialized_player = {
+        #     'last_name': player.last_name,
+        #     'for_name': player.for_name,
+        #     'birthday': player.birthday,
+        #     'gender': player.gender,
+        #     'ranking': player.ranking
+        # }
         return serialized_player
 
     def serialize_match(self, match):
@@ -129,7 +130,6 @@ class DataBase:
         players = []
         for player in tournament.players:
             players.append(self.serialize_player(self, player))
-            # players.append(player.__dict__)
         result = []
         for res in tournament.result:
             result.append(self.serialize_result(self, res))
@@ -139,18 +139,10 @@ class DataBase:
             'date': tournament.date,
             'location': tournament.location,
             'round_number': tournament.round_number,
-            'rounds': rounds,  # serialize(tournament.rounds)
+            'rounds': rounds,
             'players': players,
             'time_controler': tournament.time_controler,
             'status': tournament.status,
             'result': result
         }
         return serialized_tournament
-
-    # @staticmethod
-    # def serialize(object_list):
-    #     serialized_list = []
-    #     for item in object_list:
-    #         serialized_list.append(item.__dict__)
-
-    #     return serialized_list

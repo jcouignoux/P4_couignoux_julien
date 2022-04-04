@@ -27,9 +27,18 @@ class Controller:
                 self.running = False
             elif res[0] == "Bkup":
                 for player in self.players:
-                    player.update()
+                    try:
+                        player.update()
+                        print("Jouerur " + str(player) + " sauvegardé.")
+                    except Exception as e:
+                        print(e)
                 for tournament in self.tournaments:
-                    tournament.update()
+                    try:
+                        tournament.update()
+                        print("Tournoi " + str(tournament) + " sauvegardé.")
+                    except Exception as e:
+                        print(e)
+                input("Tapez Entrée pour continuer.")
             elif res[0] == "1":
                 '''Tournaments Menu'''
                 message = ''

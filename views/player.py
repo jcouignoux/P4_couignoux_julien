@@ -101,6 +101,7 @@ class PlayerView:
                 val = ''
                 message = ''
         else:
+            val = ''
             ret = "Mes"
             message = "Entrée incorrecte."
         print(LINE)

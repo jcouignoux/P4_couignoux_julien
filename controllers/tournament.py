@@ -198,7 +198,7 @@ class TournamentController:
                             players_list_sorted[i1][0].last_name,
                             players_list_sorted[i2][0].last_name
                         )
-                        if not tournament.is_already_played(couple):
+                        if not tournament.is_already_played(couple) or (len(player_list_pop)) == 2:
                             if players_list_sorted[i2][0] in player_list_pop:
                                 player2 = [players_list_sorted[i2][0],
                                            players_list_sorted[i2][1], 0]

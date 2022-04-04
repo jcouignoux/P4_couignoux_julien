@@ -59,35 +59,8 @@ class DataBase:
                 cls.tournaments_table.update(
                     serialized_tournament, doc_ids=[d.doc_id])
 
-    # def update_round(self, tournament):
-    #     round = tournament.rounds[-1]
-    #     serialized_matchs = []
-    #     for match in round:
-    #         serialized_matchs.append(self.serialize_match(match))
-    #     print(serialized_matchs)
-    #     self.tournaments_table.update({'matchs': serialized_matchs},
-    #                                   where('rounds') ==
-    #                                   where('name') == tournament.name)
-
-    # def update_match(self, tournament, r):
-    #     matchs = tournament.rounds[-1].matchs
-    #     serialized_matchs = []
-    #     for match in matchs:
-    #         serialized_matchs.append(self.serialize_match(match))
-    #     print(serialized_matchs)
-    #     self.tournaments_table.update({'matchs': serialized_matchs},
-    #                                   where('rounds') ==
-    #                                   where('name') == tournament.name)
-
     def serialize_player(self, player):
         serialized_player = player.__dict__
-        # serialized_player = {
-        #     'last_name': player.last_name,
-        #     'for_name': player.for_name,
-        #     'birthday': player.birthday,
-        #     'gender': player.gender,
-        #     'ranking': player.ranking
-        # }
         return serialized_player
 
     def serialize_match(self, match):

@@ -90,7 +90,10 @@ class TournamentController:
             message = ''
             end_date = datetime.now().strftime("%d/%m/%Y-%H:%M")
             tournament.rounds[-1].end_date = end_date
-            self.tc.add_round(tournament)
+            try:
+                self.tc.add_round(tournament)
+            except Exception as e:
+                message = e
             self.tc.get_tournament_detail(self, tournament, message)
         elif res[0] == "New":
             message = ''

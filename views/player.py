@@ -50,26 +50,31 @@ class PlayerView:
         print(LINE)
         entry = input("Entrez votre choix: ")
         '''Check input'''
-        error = ''
-        regex = re.compile(r'^[0-9]{2}/[0-9]{2}/[0-9]{4}$')
-        if gender not in ('M', 'F'):
-            error = "Le sexe doit être M ou F."
-        elif not ranking.isdigit() or int(ranking) <= 0:
-            error = "Le classement doit être un entier supérieur à 0."
-        elif not re.findall(regex, birthday):
-            error = "Le format de l'anniversaire doit être JJ/MM/YYYY."
-        if entry in menu.responses:
-            if error == '':
-                ret = menu.responses[entry]
-                player = (last_name, for_name, birthday, gender, ranking)
+        if entry == "A":
+            player = ''
+            ret = "Abord"
+            message = "Abandon."
+        else:
+            error = ''
+            regex = re.compile(r'^[0-9]{2}/[0-9]{2}/[0-9]{4}$')
+            if gender not in ('M', 'F'):
+                error = "Le sexe doit être M ou F."
+            elif not ranking.isdigit() or int(ranking) <= 0:
+                error = "Le classement doit être un entier supérieur à 0."
+            elif not re.findall(regex, birthday):
+                error = "Le format de l'anniversaire doit être JJ/MM/YYYY."
+            if entry in menu.responses:
+                if error == '':
+                    ret = menu.responses[entry]
+                    player = (last_name, for_name, birthday, gender, ranking)
+                else:
+                    player = ''
+                    ret = "Mes"
+                    message = error
             else:
                 player = ''
                 ret = "Mes"
-                message = error
-        else:
-            player = ''
-            ret = "Mes"
-            message = "Entrée incorrecte."
+                message = "Entrée incorrecte."
 
         return (ret, player, message)
 

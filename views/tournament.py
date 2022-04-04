@@ -47,23 +47,28 @@ class TournamentView:
         print(LINE)
         entry = input("Entrez votre choix: ")
         '''Check input'''
-        error = ''
-        if time_controler not in ('Bullet', 'Blitz', 'Fast'):
-            error = "Le contrôle du temps doit être Bullet, Blitz ou Fast"
-        if entry in menu.responses:
-            if error == '':
-                message = ''
-                ret = menu.responses[entry]
-                tournament_infos = (name, description, location,
-                                    round_number, time_controler)
+        if entry == "A":
+            tournament_infos = ''
+            ret = "Abord"
+            message = "Abandon."
+        else:
+            error = ''
+            if time_controler not in ('Bullet', 'Blitz', 'Fast'):
+                error = "Le contrôle du temps doit être Bullet, Blitz ou Fast"
+            if entry in menu.responses:
+                if error == '':
+                    message = ''
+                    ret = menu.responses[entry]
+                    tournament_infos = (name, description, location,
+                                        round_number, time_controler)
+                else:
+                    tournament_infos = ''
+                    message = error
+                    ret = "Mes"
             else:
                 tournament_infos = ''
-                message = error
                 ret = "Mes"
-        else:
-            tournament_infos = ''
-            ret = "Mes"
-            message = "Entrée incorrecte."
+                message = "Entrée incorrecte."
 
         return (ret, tournament_infos, message)
 

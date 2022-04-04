@@ -42,7 +42,7 @@ class PlayerController():
             self.view, self.menu.create_player_menu(), message)
         if res[0] == "Abort":
             message = ''
-            self.pc.get_players(self, self.players, message)
+            self.pc.get_all_players()
         elif res[0] == "Create":
             try:
                 self.player = Player(

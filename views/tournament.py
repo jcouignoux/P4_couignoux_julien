@@ -142,7 +142,7 @@ class TournamentView:
                     "Entrez l'id du match à valider", "V: Valider le tour",
                     "D: Supprimer le tournoi", "R: Retour"]
                 menu.responses = {"V": "Val", "D": "Del", "R": "Ret"}
-        round = self.tv.display_round_detail(tournament)
+        self.tv.display_round_detail(tournament)
         for choice in menu.choices:
             print(choice)
         print(LINE)
@@ -154,7 +154,6 @@ class TournamentView:
             ret = menu.responses[entry]
         elif entry in lst:
             ret = "Mod"
-            match = tournament.rounds[-1].matchs[int(entry)]
             match_index = int(entry)
         else:
             ret = "Mes"
